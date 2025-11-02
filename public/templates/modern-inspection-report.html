@@ -237,12 +237,21 @@
             }
 
             .toc-item {
+                border-bottom: 1px solid #f3f4f6;
+            }
+
+            .toc-link {
                 display: flex;
                 align-items: center;
                 padding: 12px 0;
-                border-bottom: 1px solid #f3f4f6;
                 font-size: 16px;
                 color: #374151;
+                text-decoration: none;
+                transition: color 0.2s ease;
+            }
+
+            .toc-link:hover {
+                color: #3b82f6;
             }
 
             .toc-number {
@@ -252,7 +261,6 @@
                 margin-right: 16px;
             }
 
-            /* Section Styles */
             .section {
                 padding: 40px;
                 border-bottom: 1px solid #e5e7eb;
@@ -392,6 +400,58 @@
                 line-height: 1.6;
                 white-space: pre-line;
                 word-wrap: break-word;
+            }
+
+            /* Tag and Type Styles */
+            .tag-info {
+                color: #0277bd;
+            }
+
+            .tag-defect {
+                color: #c62828;
+            }
+
+            .tag-limit {
+                color: #ef6c00;
+            }
+
+            .tag-recommendation {
+                color: #2e7d32;
+            }
+
+            .tag-warning {
+                color: #f57c00;
+            }
+
+            .tag-deficiency {
+                color: #ad1457;
+            }
+
+            .comment-tag {
+                font-size: 11px;
+                font-weight: 600;
+                margin-top: 4px;
+                padding: 4px 8px;
+                border-radius: 4px;
+                background: rgba(0, 0, 0, 0.05);
+                display: inline-block;
+            }
+
+            .flex-column {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .location-info {
+                font-size: 12px;
+                color: #6b7280;
+                font-style: italic;
+                margin-bottom: 8px;
+                padding: 6px 12px;
+                background: #f9fafb;
+                border-radius: 6px;
+                border-left: 3px solid #3b82f6;
             }
 
             /* Media Styles */
@@ -632,8 +692,10 @@
                 <ul class="toc-list">
                     {{#each sections}} {{#if (hasComments lineItems)}}
                     <li class="toc-item">
-                        <span class="toc-number">{{sectionNumber}}.</span>
-                        <span>{{name}}</span>
+                        <a href="#section-{{sectionNumber}}" class="toc-link">
+                            <span class="toc-number">{{sectionNumber}}.</span>
+                            <span>{{name}}</span>
+                        </a>
                     </li>
                     {{/if}} {{/each}}
                 </ul>
@@ -641,7 +703,7 @@
 
             <!-- Dynamic Sections -->
             {{#each sections}} {{#if (hasComments lineItems)}}
-            <div class="section">
+            <div class="section" id="section-{{sectionNumber}}">
                 <div class="section-header">
                     <div class="section-number">{{sectionNumber}}.</div>
                     <div class="section-title">{{name}}</div>
@@ -680,7 +742,21 @@
                     <div class="comments-section">
                         {{#each comments}}
                         <div class="comment">
+                            {{#if location}}
+                            <div class="location-info">
+                                <strong>Location:</strong> {{location}}
+                            </div>
+                            {{/if}} {{#if tag}}
+                            <div class="flex-column">
+                                <div class="comment-label">{{label}}</div>
+                                <div class="comment-tag tag-{{type}}">
+                                    {{tag}}{{#if type}} / {{type}}{{/if}}
+                                </div>
+                            </div>
+                            {{else}}
                             <div class="comment-label">{{label}}</div>
+                            {{/if}}
+
                             <div class="comment-text">
                                 {{formatCommentText commentText}}
                             </div>

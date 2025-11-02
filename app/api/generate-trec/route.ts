@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import path from "path";
 import fs from "fs";
-import { generateTrecReport, mergePdfParts } from "@/lib/pdf/trecGenerator";
-import { generateDynamicSections, generateStaticPart } from "@/lib/utils";
+import {
+    generateDynamicSections,
+} from "@/lib/utils";
 
 export async function POST() {
     try {
@@ -13,17 +14,9 @@ export async function POST() {
         );
         const data = JSON.parse(fs.readFileSync(jsonPath, "utf-8"));
 
-        // 1️⃣ Generate the static part (PDF form fields)
-        const staticBytes = await generateStaticPart(data);
-
-        // 2️⃣ Generate the dynamic sections (HTML to PDF)
         const sections = data.inspection?.sections || [];
-        const dynamicBytes = await generateDynamicSections(sections);
+        const finalPdfBytes = await generateDynamicSections(sections, data);
 
-        // 3️⃣ Merge both PDFs using your existing function
-        const finalPdfBytes = await mergePdfParts(staticBytes, dynamicBytes);
-
-        // 4️⃣ Convert the Uint8Array to a Node.js buffer for response
         const buffer = Buffer.from(finalPdfBytes);
 
         return new NextResponse(buffer, {

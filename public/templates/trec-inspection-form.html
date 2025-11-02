@@ -22,7 +22,7 @@
             }
 
             .title {
-                font-size: 20px;
+                font-size: 26px;
                 font-weight: bold;
                 text-align: center;
                 flex: 1;
@@ -31,12 +31,11 @@
             .form-section {
                 border: 2px solid black;
                 margin-bottom: 15px;
-                padding: 0;
+                padding: 6px;
             }
 
             .form-row {
                 display: flex;
-                border-bottom: 1px solid black;
             }
 
             .form-row:last-child {
@@ -45,10 +44,8 @@
 
             .form-field {
                 flex: 1;
-                padding: 8px;
-                border-right: 1px solid black;
                 font-style: italic;
-                font-size: 10px;
+                font-size: 13px;
             }
 
             .form-field:last-child {
@@ -61,29 +58,34 @@
 
             .section-title {
                 font-weight: bold;
-                font-size: 11px;
-                margin: 15px 0 8px 0;
+                font-size: 13px;
+                margin: 8px 0 4px 0;
             }
 
             .paragraph {
                 text-align: justify;
-                margin-bottom: 10px;
-                line-height: 1.4;
+                margin-bottom: 6px;
+                line-height: 1.2;
             }
 
             .inspector-requirements {
-                margin: 10px 0;
+                margin: 0;
+                padding: 0;
             }
 
             .bullet-point {
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
+                margin-bottom: 0;
+                line-height: 1.1;
+                padding: 0;
             }
 
             .bullet-point:before {
                 content: "• ";
-                font-size: 18px;
-                margin-right: 7px;
+                font-size: 13px;
+                margin-right: 3px;
+                margin-top: 0;
             }
 
             .underlined {
@@ -105,7 +107,7 @@
             .page-footer {
                 text-align: center;
                 margin-top: 30px;
-                font-size: 10px;
+                font-size: 13px;
             }
 
             .footer-line {
@@ -115,18 +117,23 @@
             }
 
             .hazard-section {
-                margin: 15px 0;
+                margin: 8px 0;
             }
 
             .hazard-title {
                 font-weight: bold;
                 text-align: center;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
+                text-decoration: underline;
             }
 
             .hazard-content {
                 text-align: justify;
                 line-height: 1.4;
+            }
+
+            .hazard-content p strong {
+                text-decoration: underline;
             }
 
             .checkbox-section {
@@ -171,7 +178,7 @@
 
             .section-header {
                 font-weight: bold;
-                font-size: 12px;
+                font-size: 13px;
                 text-align: center;
                 margin: 20px 0 15px 0;
             }
@@ -189,12 +196,12 @@
                 padding: 2px 7px;
                 border: 2px solid black;
                 display: flex;
-                gap: 12px;
+                gap: 10px;
                 font-weight: bold;
             }
 
             .legend-item {
-                font-size: 10px;
+                font-size: 13px;
             }
 
             .system-section {
@@ -249,7 +256,7 @@
 
             .media-section {
                 display: grid;
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr);
                 align-items: start;
                 gap: 4px;
                 margin-top: 8px;
@@ -266,7 +273,7 @@
 
             .media-type {
                 color: #666;
-                font-size: 10px;
+                font-size: 13px;
             }
 
             .media-image {
@@ -287,7 +294,7 @@
             }
 
             .media-caption {
-                font-size: 10px;
+                font-size: 13px;
                 color: #666;
                 font-style: italic;
                 margin-top: 2px;
@@ -302,12 +309,365 @@
             .media-link .media-video:hover {
                 border-color: #0066cc;
             }
+
+            .video-fallback {
+                width: 100%;
+                height: 200px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                background: #f4f4f4;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                color: #555;
+                text-decoration: none;
+            }
+
+            .margin-bottom-4 {
+                margin-bottom: 4px;
+            }
+
+            .flex-column {
+                display: flex;
+                flex-direction: column;
+                gap: 1px;
+            }
+
+            .tag-info {
+                color: #0277bd;
+            }
+
+            .tag-defect {
+                color: #c62828;
+            }
+
+            .tag-limit {
+                color: #ef6c00;
+            }
+
+            .tag-recommendation {
+                color: #2e7d32;
+            }
+
+            .tag-warning {
+                color: #f57c00;
+            }
+
+            .tag-deficiency {
+                color: #ad1457;
+            }
+
+            .comment-tag {
+                font-size: 13px;
+            }
+
+            /* Page 1 Specific Styles */
+            .page-1 {
+                page-break-after: always;
+            }
+
+            .header-section {
+                margin-bottom: 8px;
+            }
+
+            .header-row {
+                display: flex;
+                align-items: center;
+                padding: 6px 10px;
+                gap: 20px;
+            }
+
+            .trec-logo {
+                min-width: 120px;
+            }
+
+            .logo-box {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .logo-triangle {
+                width: 40px;
+                height: 40px;
+                border: 2px solid black;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background: white;
+            }
+
+            .triangle-lines {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .triangle-lines .line {
+                height: 2px;
+                background: black;
+            }
+
+            .triangle-lines .line:nth-child(1) {
+                width: 20px;
+            }
+            .triangle-lines .line:nth-child(2) {
+                width: 16px;
+            }
+            .triangle-lines .line:nth-child(3) {
+                width: 12px;
+            }
+            .triangle-lines .line:nth-child(4) {
+                width: 8px;
+            }
+            .triangle-lines .line:nth-child(5) {
+                width: 4px;
+            }
+
+            .trec-text {
+                text-align: left;
+            }
+
+            .trec-text strong {
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .trec-text small {
+                font-size: 13px;
+                line-height: 1.2;
+            }
+
+            .field-content {
+                min-height: 18px;
+                padding: 2px 4px;
+                border-bottom: 1px solid #ccc;
+                margin-bottom: 2px;
+            }
+
+            .field-label {
+                font-style: italic;
+                font-weight: 500;
+                font-size: 13px;
+                color: #666;
+            }
         </style>
     </head>
     <body>
         <div class="container">
-            <!-- Page 2 Content -->
-            <div style="page-break-before: always">
+            <!-- Page 1 Content -->
+            <div class="page-1">
+                <!-- Header Section -->
+                <div class="header-section">
+                    <div class="header-row">
+                        <div class="trec-logo">
+                            <div class="logo-box">
+                                <div class="logo-triangle">
+                                    <div class="triangle-lines">
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                    </div>
+                                </div>
+                                <!-- <div class="trec-text">
+                                    <strong>TREC</strong><br />
+                                    <small>TEXAS REAL ESTATE COMMISSION</small>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="title">PROPERTY INSPECTION REPORT FORM</div>
+                    </div>
+                </div>
+
+                <!-- Client Information Form -->
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <div class="field-content">{{clientInfo.name}}</div>
+                            <div class="field-label">Name of Client</div>
+                        </div>
+                        <div class="form-field">
+                            <div class="field-content">{{schedule.date}}</div>
+                            <div class="field-label">Date of Inspection</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <div class="field-content">
+                                {{address.fullAddress}}
+                            </div>
+                            <div class="field-label">
+                                Address of Inspected Property
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <div class="field-content">{{inspector.name}}</div>
+                            <div class="field-label">Name of Inspector</div>
+                        </div>
+                        <div class="form-field">
+                            <div class="field-content">{{clientInfo.name}}</div>
+                            <div class="field-label">TREC License #</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <div class="field-content">{{clientInfo.name}}</div>
+                            <div class="field-label">
+                                Name of Sponsor (if applicable)
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <div class="field-content">{{clientInfo.name}}</div>
+                            <div class="field-label">TREC License #</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Purpose of Inspection -->
+                <div class="section-title">PURPOSE OF INSPECTION</div>
+                <div class="paragraph">
+                    A real estate inspection is a visual survey of a structure
+                    and a basic performance evaluation of the systems and
+                    components of a building. It provides information regarding
+                    the general condition of a residence at the time the
+                    inspection was conducted.
+                    <strong
+                        >It is important that you carefully read ALL of this
+                        information. Ask the inspector to clarify any items or
+                        comments that are unclear.</strong
+                    >
+                </div>
+
+                <!-- Responsibility of the Inspector -->
+                <div class="section-title">RESPONSIBILITY OF THE INSPECTOR</div>
+                <div class="paragraph">
+                    This inspection is governed by the Texas Real Estate
+                    Commission (TREC) Standards of Practice (SOPs), which
+                    dictates the minimum requirements for a real estate
+                    inspection.
+                </div>
+
+                <div class="paragraph">The inspector is required to:</div>
+                <div class="inspector-requirements">
+                    <div class="bullet-point">
+                        use this Property Inspection Report form for the
+                        inspection;
+                    </div>
+                    <div class="bullet-point">
+                        inspect only those components and conditions that are
+                        present, visible, and accessible at the time of the
+                        inspection;
+                    </div>
+                    <div class="bullet-point">
+                        indicate whether each item was inspected, not inspected,
+                        or not present;
+                    </div>
+                    <div class="bullet-point">
+                        indicate an item as Deficient (D) if a condition exists
+                        that adversely and materially affects the performance of
+                        a system or component OR warrants further evaluation by
+                        a qualified professional. All deficiencies must be
+                        explained in the corresponding section in the body of
+                        the report form; and
+                    </div>
+                    <div class="bullet-point">
+                        explain the inspector's findings in the corresponding
+                        section in the body of the report form.
+                    </div>
+                </div>
+
+                <div class="paragraph">The inspector is NOT required to:</div>
+                <div class="inspector-requirements">
+                    <div class="bullet-point">
+                        identify all potential hazards;
+                    </div>
+                    <div class="bullet-point">
+                        turn on decommissioned equipment, systems, utilities, or
+                        apply an open flame or light a pilot to operate any
+                        appliance;
+                    </div>
+                    <div class="bullet-point">
+                        climb over obstacles, move furnishings or stored items;
+                    </div>
+                    <div class="bullet-point">
+                        prioritize or emphasize the importance of one deficiency
+                        over another;
+                    </div>
+                    <div class="bullet-point">
+                        provide follow-up services to verify that proper repairs
+                        have been made; or
+                    </div>
+                    <div class="bullet-point">
+                        inspect system or component listed under the optional
+                        section of the SOPs (22 TAC 535.233).
+                    </div>
+                </div>
+
+                <!-- Responsibility of the Client -->
+                <div class="section-title">RESPONSIBILITY OF THE CLIENT</div>
+                <div class="paragraph">
+                    While items identified as Deficient (D) in an inspection
+                    report DO NOT obligate any party to make repairs or take
+                    other actions, in the event that any further evaluations are
+                    needed, it is the responsibility of the client to obtain
+                    further evaluations and cost estimates from qualified
+                    service professionals regarding any items reported as
+                    Deficient (D). It is recommended that any further
+                    evaluations and cost estimates take place prior to the
+                    expiration of any contractual time limitations, such as
+                    option periods.
+                </div>
+
+                <div class="paragraph">
+                    <strong>Please Note:</strong> Evaluations performed by
+                    service professionals in response to items reported as
+                    Deficient (D) on this report may lead to the discovery of
+                    additional deficiencies that were not present, visible, or
+                    accessible at the time of the inspection. Any repairs made
+                    after the date of the inspection may render information
+                    contained in this report obsolete or invalid.
+                </div>
+
+                <!-- Report Limitations -->
+                <div class="section-title">REPORT LIMITATIONS</div>
+                <div class="paragraph">
+                    This report is provided for the benefit of the named client
+                    and is based on observations made by the named inspector on
+                    the date the inspection was performed (indicated above).
+                </div>
+
+                <div class="paragraph">
+                    ONLY those items specifically noted as being inspected on
+                    the report were inspected.
+                </div>
+
+                <div class="paragraph">This inspection IS NOT:</div>
+                <div class="inspector-requirements">
+                    <div class="bullet-point">
+                        a technically exhaustive inspection of the structure,
+                        its systems, or its components and may not reveal all
+                        deficiencies;
+                    </div>
+                    <div class="bullet-point">
+                        an inspection to verify compliance with any building
+                        codes;
+                    </div>
+                    <div class="bullet-point">
+                        an inspection to verify compliance with manufacturer's
+                        installation instructions for any system or component
+                        and DOES NOT imply insurability or warrantability of the
+                        structure or its components.
+                    </div>
+                </div>
+            </div>
+            <div>
                 <!-- Hazardous Conditions Notice -->
                 <div class="hazard-section">
                     <div class="hazard-title">
@@ -411,14 +771,7 @@
                 </div>
 
                 <!-- Additional Information Section -->
-                <div
-                    style="
-                        border: 2px solid black;
-                        padding: 15px;
-                        margin: 20px 0;
-                        min-height: 150px;
-                    "
-                >
+                <div style="margin: 20px 0; min-height: 150px">
                     <div
                         style="
                             text-align: center;
@@ -435,7 +788,7 @@
                             border: 1px solid #ccc;
                             padding: 8px;
                             font-family: 'Times New Roman', Times, serif;
-                            font-size: 12px;
+                            font-size: 13px;
                             resize: vertical;
                             box-sizing: border-box;
                         "
@@ -505,7 +858,24 @@
                             <p class="italic no-margin">Comments:</p>
                             {{#each comments}}
                             <div class="sub-field">
-                                <em class="italic">{{label}}:</em>
+                                {{#if location}}
+                                <p class="margin-bottom-4">
+                                    <span class="italic no-margin"
+                                        >location:</span
+                                    >{{location}}
+                                </p>
+                                {{/if}} {{#if tag}}
+                                <div class="flex-column">
+                                    <strong>{{label}}:</strong>
+                                    <p class="comment-tag tag-{{type}}">
+                                        {{tag}}{{#if type}} / {{type}}{{/if}}
+                                    </p>
+                                </div>
+                                {{else}}
+                                <div>
+                                    <em class="italic">{{label}}:</em>
+                                </div>
+                                {{/if}}
                                 <span class="comment-text"
                                     >{{formatCommentText commentText}}</span
                                 >
@@ -537,18 +907,9 @@
                                             class="media-link"
                                             title="Click to open video in new tab{{#if caption}} - {{caption}}{{/if}}"
                                         >
-                                            <video
-                                                controls
-                                                class="media-video"
-                                                preload="metadata"
-                                            >
-                                                <source
-                                                    src="{{url}}#t=0.1"
-                                                    type="{{#if fileType}}{{fileType}}{{else}}video/mp4{{/if}}"
-                                                />
-                                                Your browser does not support
-                                                the video tag.
-                                            </video>
+                                            <div class="video-fallback">
+                                                ▶ Video link
+                                            </div>
                                         </a>
                                         {{#if caption}}
                                         <div class="media-caption">

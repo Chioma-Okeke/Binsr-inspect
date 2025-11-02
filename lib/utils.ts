@@ -9,9 +9,8 @@ import { twMerge } from "tailwind-merge";
 import fs from "fs";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import puppeteer from "puppeteer";
-
 import Handlebars from "handlebars";
-import { getBrowser } from "./puppeteerClient";
+import he from "he";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -38,150 +37,44 @@ export function formatScheduleDateTime(
 
 export function formatPhoneNumber(phoneNumber: string): string {
     if (!phoneNumber) return "";
-
-    // Remove all non-digit characters
     const cleaned = phoneNumber.replace(/\D/g, "");
 
-    // Handle different phone number lengths
     if (cleaned.length === 10) {
-        // Standard US format: (123) 456-7890
         return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(
             6
         )}`;
     } else if (cleaned.length === 11 && cleaned.startsWith("1")) {
-        // US format with country code: +1 (123) 456-7890
         return `+1 (${cleaned.slice(1, 4)}) ${cleaned.slice(
             4,
             7
         )}-${cleaned.slice(7)}`;
     } else if (cleaned.length === 7) {
-        // Local format: 456-7890
         return `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
     } else {
-        // Return original if it doesn't match expected patterns
         return phoneNumber;
     }
 }
 
-// export async function generateStaticPart(data: RootObject) {
-//     const templatePath = path.join(
-//         process.cwd(),
-//         "public/templates/TREC_Template_Blank.pdf"
-//     );
-//     const outputPath = path.join(process.cwd(), "output_pdf.pdf");
-//     const templateBytes = fs.readFileSync(templatePath);
-//     const pdfDoc = await PDFDocument.load(templateBytes);
-//     const form = pdfDoc.getForm();
-//     const additionalInformation =
-//         data?.inspection?.inspector?.additionalInfo ||
-//         "No additional comments were provided by the inspector.";
-//     const totalPages = pdfDoc.getPageCount();
+export function optimizeImageUrl(
+    url: string,
+    width = 800,
+    quality = 80
+): string {
+    if (!url || typeof url !== "string") return url;
 
-//     const possibleFields2 = Array.from({ length: 21 }, (_, i) => i);
-//     possibleFields2.forEach((possibleField) => {
-//         try {
-//             console.log(
-//                 `Trying to set Text Field: Text-field-two${possibleField}`
-//             );
-//             form.getTextField(`${possibleField}`).setText(
-//                 `Field-two${possibleField}`
-//             );
-//         } catch (error) {
-//             // skip if field doesn't exist
-//         }
-//     });
+    if (url.includes("firebasestorage.googleapis.com")) {
+        const hasQuery = url.includes("?");
+        const separator = hasQuery ? "&" : "?";
 
-//     form.getTextField("Name of Client").setText(
-//         data.inspection?.clientInfo?.name || ""
-//     );
-//     form.getTextField("Date of Inspection").setText(
-//         data.inspection?.schedule
-//             ? formatScheduleDateTime(data.inspection.schedule)
-//             : ""
-//     );
-//     form.getTextField("Address of Inspected Property").setText(
-//         data.inspection?.address?.fullAddress || ""
-//     );
-//     form.getTextField("Name of Inspector").setText(
-//         data.inspection?.inspector?.name || ""
-//     );
-//     form.getTextField("TREC License").setText(
-//         data.inspection?.clientInfo?.name || ""
-//     );
-//     form.getTextField("Name of Sponsor if applicable").setText(
-//         data.inspection?.clientInfo?.name || ""
-//     );
-//     form.getTextField("TREC License_2").setText(
-//         data.inspection?.clientInfo?.name || ""
-//     );
-//     form.getTextField("Text1").setText(additionalInformation);
-//     form.getTextField("Page 2 of").setText(totalPages.toString());
-
-//     const pages = pdfDoc.getPages();
-//     const keepUntil = 0
-
-//     // Save the filled PDF
-//     const pdfBytes = await pdfDoc.save();
-//     fs.writeFileSync(outputPath, pdfBytes);
-
-//     return pdfBytes;
-// }
-
-export async function generateStaticPart(data: RootObject) {
-    const templatePath = path.join(
-        process.cwd(),
-        "public/templates/TREC_Template_Blank.pdf"
-    );
-
-    const templateBytes = fs.readFileSync(templatePath);
-    const pdfDoc = await PDFDocument.load(templateBytes);
-    const form = pdfDoc.getForm();
-
-    const additionalInformation =
-        data?.inspection?.inspector?.additionalInfo ||
-        "No additional comments were provided by the inspector.";
-
-    form.getTextField("Name of Client").setText(
-        data.inspection?.clientInfo?.name || ""
-    );
-    form.getTextField("Date of Inspection").setText(
-        data.inspection?.schedule
-            ? formatScheduleDateTime(data.inspection.schedule)
-            : ""
-    );
-    form.getTextField("Address of Inspected Property").setText(
-        data.inspection?.address?.fullAddress || ""
-    );
-    form.getTextField("Name of Inspector").setText(
-        data.inspection?.inspector?.name || ""
-    );
-    form.getTextField("TREC License").setText(
-        data.inspection?.clientInfo?.name || ""
-    );
-    form.getTextField("Name of Sponsor if applicable").setText(
-        data.inspection?.clientInfo?.name || ""
-    );
-    form.getTextField("TREC License_2").setText(
-        data.inspection?.clientInfo?.name || ""
-    );
-    form.getTextField("Text1").setText(additionalInformation);
-
-    // Flatten form fields to make them non-editable
-    form.flatten();
-
-    // Remove all pages except page 0
-    while (pdfDoc.getPageCount() > 1) {
-        pdfDoc.removePage(pdfDoc.getPageCount() - 1);
+        return `${url}${separator}width=${width}&quality=${quality}`;
     }
-
-    const pdfBytes = await pdfDoc.save();
-    return pdfBytes;
+    return url;
 }
 
 export async function generateDynamicSections(
-    sections: RootObject_Inspection_SectionsItem[]
+    sections: RootObject_Inspection_SectionsItem[],
+    data: RootObject
 ) {
-    // Register Handlebars helpers
     Handlebars.registerHelper("eq", function (a, b) {
         return a === b;
     });
@@ -196,9 +89,7 @@ export async function generateDynamicSections(
         );
     });
 
-    // Helper to convert numbers to Roman numerals
     Handlebars.registerHelper("toRoman", function (num) {
-        // Convert string to number if needed
         const number = typeof num === "string" ? parseInt(num, 10) : num;
 
         if (!number || number < 1) return "I";
@@ -232,20 +123,19 @@ export async function generateDynamicSections(
         return result;
     });
 
-    // Helper to format comment text with proper line breaks
     Handlebars.registerHelper("formatCommentText", function (text) {
-        // Just return the text as-is, let CSS handle line breaks
-        return text;
+        if (!text) return "";
+        const decoded = he.decode(text);
+        return decoded;
     });
 
-    // Helper to convert numbers to capital letters (1->A, 2->B, etc.)
     Handlebars.registerHelper("toLetter", function (num) {
         if (typeof num !== "number" || num < 1) {
             return "A";
         }
 
         let result = "";
-        let n = num - 1; // Convert to 0-based indexing
+        let n = num - 1;
 
         do {
             result = String.fromCharCode(65 + (n % 26)) + result;
@@ -255,17 +145,15 @@ export async function generateDynamicSections(
         return result;
     });
 
-    // Helper to convert array index to capital letters (resets per section)
     Handlebars.registerHelper("indexToLetter", function (index) {
         if (typeof index !== "number" || index < 0) {
             return "A";
         }
 
-        // Simple conversion: 0->A, 1->B, 2->C, etc.
         return String.fromCharCode(65 + index);
     });
 
-    const browser = await getBrowser();
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     const templatePath = path.join(
         process.cwd(),
@@ -274,15 +162,64 @@ export async function generateDynamicSections(
     const templateHtml = fs.readFileSync(templatePath, "utf8");
     const compiledTemplate = Handlebars.compile(templateHtml);
 
-    // Pass sections as the data object for the template
-    const html = compiledTemplate({ sections });
-    await page.setContent(html, { waitUntil: "networkidle0" });
+    const optimizedSections = sections.map((section) => ({
+        ...section,
+        lineItems:
+            section.lineItems?.map((item) => ({
+                ...item,
+                comments:
+                    item.comments?.map((comment) => ({
+                        ...comment,
+                        photos:
+                            comment.photos?.map((photo) => ({
+                                ...photo,
+                                url: optimizeImageUrl(
+                                    photo.url ? photo.url : ""
+                                ),
+                            })) || [],
+                    })) || [],
+            })) || [],
+    }));
+
+    const templateData = {
+        sections: optimizedSections,
+        clientInfo: {
+            name: data?.inspection?.clientInfo?.name || "",
+        },
+        schedule: {
+            date: data?.inspection?.schedule
+                ? formatScheduleDateTime(data.inspection.schedule)
+                : "",
+        },
+        address: {
+            fullAddress: data?.inspection?.address?.fullAddress || "",
+        },
+        inspector: {
+            name: data?.inspection?.inspector?.name || "",
+        },
+    };
+
+    const html = compiledTemplate(templateData);
+    await page.setContent(html, { waitUntil: "domcontentloaded" });
+
+    await page.evaluate(async () => {
+        const images = Array.from(document.images);
+        await Promise.all(
+            images.map((img) => {
+                if (img.complete) return;
+                return new Promise((resolve) => {
+                    img.addEventListener("load", resolve);
+                    img.addEventListener("error", resolve);
+                });
+            })
+        );
+    });
 
     const pdfBuffer = await page.pdf({
         format: "Letter",
         printBackground: true,
         margin: {
-            top: "0.5in",
+            top: "0.3in",
             right: "0.5in",
             bottom: "0.5in",
             left: "0.5in",
@@ -290,47 +227,28 @@ export async function generateDynamicSections(
     });
     await browser.close();
 
+    const outputPath = path.join(process.cwd(), `output_pdf.pdf`);
+
+    const buffer = Buffer.from(pdfBuffer);
+    fs.writeFileSync(outputPath, buffer);
+
+    console.log(`PDF saved to: ${outputPath}`);
+
     return pdfBuffer;
 }
 
-// New function to combine both PDFs into one
 export async function generateCompleteTRECReport(data: RootObject) {
-    // Generate the static part (first few pages with form fields)
-    const staticPdfBytes = await generateStaticPart(data);
-
-    // Generate the dynamic sections (inspection checklist pages)
     const sections = data.inspection?.sections || [];
-    const dynamicPdfBuffer = await generateDynamicSections(sections);
+    const dynamicPdfBuffer = await generateDynamicSections(sections, data);
 
-    // Create a new PDF document to merge both
-    const mergedPdf = await PDFDocument.create();
+    const pdfDoc = await PDFDocument.load(dynamicPdfBuffer);
+    const totalPages = pdfDoc.getPageCount();
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-    // Load the static PDF and copy its pages
-    const staticPdf = await PDFDocument.load(staticPdfBytes);
-    const staticPages = await mergedPdf.copyPages(
-        staticPdf,
-        staticPdf.getPageIndices()
-    );
-    staticPages.forEach((page) => mergedPdf.addPage(page));
-
-    // Load the dynamic PDF and copy its pages
-    const dynamicPdf = await PDFDocument.load(dynamicPdfBuffer);
-    const dynamicPages = await mergedPdf.copyPages(
-        dynamicPdf,
-        dynamicPdf.getPageIndices()
-    );
-    dynamicPages.forEach((page) => mergedPdf.addPage(page));
-
-    // Update page numbering throughout the document
-    const totalPages = mergedPdf.getPageCount();
-    const font = await mergedPdf.embedFont(StandardFonts.Helvetica);
-
-    // Add page numbers to all pages
-    mergedPdf.getPages().forEach((page, index) => {
+    pdfDoc.getPages().forEach((page, index) => {
         const pageNumber = index + 1;
         const { width } = page.getSize();
 
-        // Add page number at bottom center
         page.drawText(`Page ${pageNumber} of ${totalPages}`, {
             x: width / 2 - 30,
             y: 30,
@@ -340,14 +258,12 @@ export async function generateCompleteTRECReport(data: RootObject) {
         });
     });
 
-    const finalPdfBytes = await mergedPdf.save();
+    const finalPdfBytes = await pdfDoc.save();
     return finalPdfBytes;
 }
 
 export async function generateModernReport(data: RootObject): Promise<Buffer> {
-    // Register Handlebars helpers
     Handlebars.registerHelper("toRoman", (num: number | string) => {
-        // Convert string to number if needed
         const number = typeof num === "string" ? parseInt(num, 10) : num;
 
         if (!number || number < 1) return "I";
@@ -384,7 +300,6 @@ export async function generateModernReport(data: RootObject): Promise<Buffer> {
         if (typeof index !== "number" || index < 0) {
             return "A";
         }
-        // Simple conversion: 0->A, 1->B, 2->C, etc.
         return String.fromCharCode(65 + index);
     });
 
@@ -407,6 +322,30 @@ export async function generateModernReport(data: RootObject): Promise<Buffer> {
         );
     });
 
+    Handlebars.registerHelper(
+        "substring",
+        function (str: string, start: number, end?: number) {
+            if (!str) return "";
+            if (end !== undefined) {
+                return str.substring(start, end);
+            }
+            return str.substring(start);
+        }
+    );
+
+    Handlebars.registerHelper("formatPhone", function (phoneNumber: string) {
+        return formatPhoneNumber(phoneNumber);
+    });
+
+    Handlebars.registerHelper("add", function (a: number, b: number) {
+        return a + b;
+    });
+
+    Handlebars.registerHelper("length", function (array: unknown[]) {
+        if (!array || !Array.isArray(array)) return 0;
+        return array.length;
+    });
+
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     const templatePath = path.join(
@@ -416,24 +355,23 @@ export async function generateModernReport(data: RootObject): Promise<Buffer> {
     const templateHtml = fs.readFileSync(templatePath, "utf8");
     const compiledTemplate = Handlebars.compile(templateHtml);
 
-    // Prepare template data with all required fields
     const templateData = {
-        companyName: data.account?.companyName || "Inspection Company",
-        companyLogo: data.account?.companyLogo || null,
-        phoneNumber: data.account?.phoneNumber || "",
-        email: data.account?.email || "",
-        companyAddress: data.account?.companyAddress || {},
-        clientName: data.inspection?.clientInfo?.name || "N/A",
-        propertyAddress: data.inspection?.address?.fullAddress || "N/A",
-        inspectionDate: data.inspection?.schedule
+        companyName: data?.account?.companyName || "Inspection Company",
+        companyLogo: data?.account?.companyLogo || null,
+        phoneNumber: data?.account?.phoneNumber || "",
+        email: data?.account?.email || "",
+        companyAddress: data?.account?.companyAddress || {},
+        clientName: data?.inspection?.clientInfo?.name || "N/A",
+        propertyAddress: data?.inspection?.address?.fullAddress || "N/A",
+        inspectionDate: data?.inspection?.schedule
             ? formatScheduleDateTime(data.inspection.schedule)
             : "N/A",
-        inspectorName: data.inspection?.inspector?.name || "N/A",
+        inspectorName: data?.inspection?.inspector?.name || "N/A",
         license:
-            data.inspection?.inspector?.licenseNumber ||
+            data?.inspection?.inspector?.licenseNumber ||
             "License Not Specified",
-        sections: data.inspection?.sections || [],
-        additionalInfo: data.inspection?.inspector?.additionalInfo || null,
+        sections: data?.inspection?.sections || [],
+        additionalInfo: data?.inspection?.inspector?.additionalInfo || null,
     };
 
     const html = compiledTemplate(templateData);
