@@ -11,6 +11,7 @@ import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import puppeteer from "puppeteer";
 
 import Handlebars from "handlebars";
+import { getBrowser } from "./puppeteerClient";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -264,7 +265,7 @@ export async function generateDynamicSections(
         return String.fromCharCode(65 + index);
     });
 
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await getBrowser();
     const page = await browser.newPage();
     const templatePath = path.join(
         process.cwd(),
@@ -452,7 +453,7 @@ export async function generateModernReport(data: RootObject): Promise<Buffer> {
     };
 
     const modernPdf = await page.pdf(generatePDFOptions);
-    await browser.close();
+    await page.close();
 
     return Buffer.from(modernPdf);
 }
