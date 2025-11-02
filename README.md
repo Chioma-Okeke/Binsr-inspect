@@ -18,13 +18,6 @@ A comprehensive Next.js application for generating professional property inspect
 - **React 19.2.0** - Frontend library
 - **TypeScript 5** - Type-safe JavaScript
 
-### UI & Utilities
-- **clsx 2.1.1** - Conditional CSS class names
-- **tailwind-merge 3.3.1** - Tailwind CSS class merging utility
-- **@bprogress/next 3.2.12** - Progress bar for Next.js
-- **sonner 2.0.7** - Toast notifications
-- **next-themes 0.4.6** - Theme management
-
 ### PDF Generation & Processing
 - **Puppeteer 24.27.0** - Headless Chrome for PDF generation
 - **PDF-lib 1.17.1** - PDF manipulation and merging
@@ -40,7 +33,7 @@ A comprehensive Next.js application for generating professional property inspect
 
 ### Prerequisites
 - Node.js 18+ 
-- npm, yarn, pnpm, or bun
+- npm
 
 ### Installation
 
@@ -70,13 +63,6 @@ A comprehensive Next.js application for generating professional property inspect
    http://localhost:3000/api/custom-report-generation
    ```
 
-### Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-
 ## 🏗️ Project Structure
 
 ```
@@ -84,12 +70,6 @@ A comprehensive Next.js application for generating professional property inspect
 │   ├── api/                      # API routes
 │   │   ├── generate-trec/        # TREC report generation endpoint
 │   │   └── custom-report-generation/ # Modern report endpoint
-│   ├── auth/                     # Authentication pages
-│   ├── demo/                     # Demo pages
-│   └── modern-report-preview/    # Report preview pages
-├── components/                   # React components
-│   ├── ui/                       # Reusable UI components
-│   └── auth/                     # Authentication components
 ├── lib/                          # Utility libraries
 │   ├── pdf/                      # PDF generation utilities
 │   ├── inspection-data.json      # Sample inspection data
@@ -173,11 +153,3 @@ No specific environment variables are required for basic operation. The applicat
 ## 📄 License
 
 This project is private and proprietary.
-
-## 🤝 Contributing
-
-This is a private project. For internal development:
-1. Create feature branches from `master`
-2. Follow TypeScript and ESLint conventions
-3. Test PDF generation with various data sets
-4. Ensure responsive design across devices
