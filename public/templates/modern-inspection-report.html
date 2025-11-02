@@ -597,8 +597,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{#each agents}}
-                        {{#if isPrimary}}
+                        {{#each agents}} {{#if isPrimary}}
                         <div class="inspector-card">
                             <div class="inspector-avatar">
                                 {{#if agent.name}}{{substring agent.name 0
@@ -617,8 +616,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{/if}}
-                        {{/each}}
+                        {{/if}} {{/each}}
                     </div>
                 </div>
             </div>
