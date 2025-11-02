@@ -53,27 +53,22 @@ A comprehensive Next.js application for generating professional property inspect
 2. **Install dependencies**
    ```bash
    npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   # or
-   bun install
    ```
 
 3. **Run the development server**
    ```bash
    npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   # or
-   bun dev
    ```
 
-4. **Open the application**
-   Navigate to [http://localhost:3000](http://localhost:3000) in your browser
+4. **To generate the pdfs**
+   ```bash
+   #on post man make a post request to
+   #for output_pdf.pdf
+   http://localhost:3000/api/generate-trec
+
+   #for bonus_pdf.pdf
+   http://localhost:3000/api/custom-report-generation
+   ```
 
 ### Available Scripts
 
