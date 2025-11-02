@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Property Inspection Report Form</title>
+        <style>
+            body {
+                font-family: "Times New Roman", Times, serif;
+                margin: 0;
+                padding: 10px;
+                background-color: white;
+                font-size: 13px;
+                line-height: 1.3;
+            }
+
+            .container {
+                max-width: 7.5in;
+                width: 100%;
+                margin: 0 auto;
+                background: white;
+            }
+
+            .header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+                border-bottom: 2px solid black;
+                padding-bottom: 10px;
+            }
+
+            .logo {
+                width: 120px;
+                height: 80px;
+                border: 2px solid black;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin-right: 20px;
+                font-weight: bold;
+            }
+
+            .logo-text {
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            .logo-subtitle {
+                font-size: 8px;
+                text-align: center;
+                margin-top: 5px;
+            }
+
+            .title {
+                font-size: 20px;
+                font-weight: bold;
+                text-align: center;
+                flex: 1;
+            }
+
+            .form-section {
+                border: 2px solid black;
+                margin-bottom: 15px;
+                padding: 0;
+            }
+
+            .form-row {
+                display: flex;
+                border-bottom: 1px solid black;
+            }
+
+            .form-row:last-child {
+                border-bottom: none;
+            }
+
+            .form-field {
+                flex: 1;
+                padding: 8px;
+                border-right: 1px solid black;
+                font-style: italic;
+                font-size: 10px;
+            }
+
+            .form-field:last-child {
+                border-right: none;
+            }
+
+            .form-field.half {
+                flex: 0.5;
+            }
+
+            .section-title {
+                font-weight: bold;
+                font-size: 11px;
+                margin: 15px 0 8px 0;
+            }
+
+            .paragraph {
+                text-align: justify;
+                margin-bottom: 10px;
+                line-height: 1.4;
+            }
+
+            .inspector-requirements {
+                margin: 10px 0;
+            }
+
+            .bullet-point {
+                margin-left: 20px;
+                margin-bottom: 3px;
+            }
+
+            .bullet-point:before {
+                content: "• ";
+                margin-right: 5px;
+            }
+
+            .underlined {
+                text-decoration: underline;
+            }
+
+            .bold {
+                font-weight: bold;
+            }
+
+            .italic {
+                font-style: italic;
+            }
+
+            .page-footer {
+                text-align: center;
+                margin-top: 30px;
+                font-size: 10px;
+            }
+
+            .footer-line {
+                border-top: 1px solid black;
+                margin: 20px 0 10px 0;
+                padding-top: 10px;
+            }
+
+            .hazard-section {
+                margin: 15px 0;
+            }
+
+            .hazard-title {
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            .hazard-content {
+                text-align: justify;
+                line-height: 1.4;
+            }
+
+            .checkbox-section {
+                margin: 20px 0;
+            }
+
+            .checkbox-row {
+                display: flex;
+                align-items: center;
+                margin: 8px 0;
+            }
+
+            .checkbox {
+                width: 12px;
+                height: 12px;
+                border: 1px solid black;
+                margin-right: 8px;
+                display: inline-block;
+                cursor: pointer;
+            }
+
+            .section-header {
+                font-weight: bold;
+                font-size: 12px;
+                text-align: center;
+                margin: 20px 0 15px 0;
+            }
+
+            .inspection-legend {
+                display: flex;
+                justify-content: space-between;
+                border: 2px solid black;
+                padding: 8px;
+                margin: 15px 0;
+                font-weight: bold;
+            }
+
+            .legend-item {
+                font-size: 10px;
+            }
+
+            .system-section {
+                margin: 15px 0;
+            }
+
+            .system-title {
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .system-item {
+                display: flex;
+                align-items: flex-start;
+                margin: 8px 0;
+            }
+
+            .checkboxes {
+                display: flex;
+                margin-right: 10px;
+            }
+
+            .item-label {
+                font-weight: bold;
+                margin-right: 5px;
+            }
+
+            .item-description {
+                flex: 1;
+            }
+
+            .sub-field {
+                font-style: italic;
+                margin-left: 20px;
+                margin-top: 3px;
+                font-size: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Page 2 Content -->
+            <div style="page-break-before: always; margin-top: 40px">
+                <!-- Hazardous Conditions Notice -->
+                <div class="hazard-section">
+                    <div class="hazard-title">
+                        NOTICE CONCERNING HAZARDOUS CONDITIONS, DEFICIENCIES,
+                        AND CONTRACTUAL AGREEMENTS
+                    </div>
+
+                    <div class="hazard-content">
+                        <p>
+                            <strong
+                                >Conditions may be present in your home that did
+                                not violate building codes or common practices
+                                in effect when the home was constructed
+                                <u
+                                    >but are considered hazardous by today's
+                                    standards</u
+                                >. Such conditions that were part of the home
+                                prior to the adoption of any current codes
+                                prohibiting them may not be required to be
+                                updated to meet current code requirements.
+                                However, if it can be reasonably determined that
+                                they were not present at the time of the
+                                original construction, the potential for injury
+                                or property loss from these conditions is
+                                significant enough to require inspectors to
+                                report them as Deficient (D). Examples of such
+                                hazardous conditions include:</strong
+                            >
+                        </p>
+
+                        <div class="inspector-requirements">
+                            <div class="bullet-point">
+                                malfunctioning, improperly installed, or missing
+                                ground fault circuit protection (GFCI) devices
+                                and arc-fault (AFCI) devices;
+                            </div>
+                            <div class="bullet-point">
+                                ordinary glass in locations where modern
+                                construction techniques call for safety glass;
+                            </div>
+                            <div class="bullet-point">
+                                malfunctioning or lack of fire safety features
+                                such as smoke alarms, fire-rated doors in
+                                certain locations, and functional emergency
+                                escape and rescue openings in bedrooms;
+                            </div>
+                            <div class="bullet-point">
+                                malfunctioning carbon monoxide alarms;
+                            </div>
+                            <div class="bullet-point">
+                                excessive spacing between balusters on stairways
+                                and porches;
+                            </div>
+                            <div class="bullet-point">
+                                improperly installed appliances;
+                            </div>
+                            <div class="bullet-point">
+                                improperly installed or defective safety
+                                devices;
+                            </div>
+                            <div class="bullet-point">
+                                lack of electrical bonding and grounding; and
+                            </div>
+                            <div class="bullet-point">
+                                lack of bonding on gas piping, including
+                                corrugated stainless steel tubing (CSST).
+                            </div>
+                        </div>
+
+                        <p>
+                            <strong>Please Note:</strong> Items identified as
+                            Deficient (D) in an inspection report DO NOT
+                            obligate any party to make repairs or take other
+                            actions. The decision to correct a hazard or any
+                            deficiency identified in an inspection report is
+                            left up to the parties to the contract for the sale
+                            or purchase of the home.
+                        </p>
+
+                        <p>
+                            This property inspection report may include an
+                            inspection agreement (contract), addenda, and other
+                            information related to property conditions.
+                        </p>
+
+                        <p>
+                            <strong
+                                >INFORMATION INCLUDED UNDER "ADDITIONAL
+                                INFORMATION PROVIDED BY INSPECTOR" OR PROVIDED
+                                AS AN ATTACHMENT WITH THE STANDARD FORM, IS NOT
+                                REQUIRED BY THE COMMISSION AND MAY CONTAIN
+                                CONTRACTUAL TERMS BETWEEN THE INSPECTOR AND YOU,
+                                AS THE CLIENT. THE COMMISSION DOES NOT REGULATE
+                                CONTRACTUAL TERMS BETWEEN PARTIES. IF YOU DO NOT
+                                UNDERSTAND THE EFFECT OF ANY CONTRACTUAL TERM
+                                CONTAINED IN THIS SECTION OR ANY ATTACHMENTS,
+                                CONSULT AN ATTORNEY.</strong
+                            >
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Additional Information Section -->
+                <div
+                    style="
+                        border: 2px solid black;
+                        padding: 15px;
+                        margin: 20px 0;
+                        min-height: 100px;
+                    "
+                >
+                    <div
+                        style="
+                            text-align: center;
+                            font-weight: bold;
+                            margin-bottom: 20px;
+                        "
+                    >
+                        ADDITIONAL INFORMATION PROVIDED BY INSPECTOR
+                    </div>
+                </div>
+
+                <!-- Page Footer -->
+                <!-- <div class="footer-line">
+                <div style="text-align: center;">Page 2 of ___</div>
+            </div>
+            
+            <div class="page-footer">
+                <div>REI 7-6 (8/9/21) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Promulgated by the Texas Real Estate Commission • (512) 936-3000 • <span class="underlined">www.trec.texas.gov</span></div>
+            </div> -->
+            </div>
+
+            <!-- Page 3 Content - Inspection Form -->
+            <div style="page-break-before: always; margin-top: 40px">
+                <div style="margin-bottom: 15px">
+                    <strong>Report Identification:</strong>
+                    ________________________________
+                </div>
+
+                <!-- Inspection Legend -->
+                <div class="inspection-legend">
+                    <div class="legend-item">I=Inspected</div>
+                    <div class="legend-item">NI=Not Inspected</div>
+                    <div class="legend-item">NP=Not Present</div>
+                    <div class="legend-item">D=Deficient</div>
+                </div>
+
+                <!-- Electrical Systems -->
+                <div class="system-section">
+                    <div class="section-header">II. ELECTRICAL SYSTEMS</div>
+
+                    <div class="system-item">
+                        <div class="checkboxes">
+                            <input type="checkbox" class="checkbox" aria-label="Service Entrance and Panels - Inspected" />
+                            <input type="checkbox" class="checkbox" aria-label="Service Entrance and Panels - Not Inspected" />
+                            <input type="checkbox" class="checkbox" aria-label="Service Entrance and Panels - Not Present" />
+                            <input type="checkbox" class="checkbox" aria-label="Service Entrance and Panels - Deficient" />
+                        </div>
+                        <div class="item-description">
+                            <span class="item-label"
+                                >A. Service Entrance and Panels</span
+                            >
+                            <div class="sub-field"><em>Comments:</em></div>
+                        </div>
+                    </div>
+
+                    <div class="system-item">
+                        <div class="checkboxes">
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                        </div>
+                        <div class="item-description">
+                            <span class="item-label"
+                                >B. Branch Circuits, Connected Devices, and
+                                Fixtures</span
+                            >
+                            <div class="sub-field">
+                                <em>Type of Wiring:</em>
+                            </div>
+                            <div class="sub-field"><em>Comments:</em></div>
+                        </div>
+                    </div>
+
+                    <div class="system-item">
+                        <div class="checkboxes">
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                        </div>
+                        <div class="item-description">
+                            <span class="item-label">C. Other</span>
+                            <div class="sub-field"><em>Comments:</em></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HVAC Systems -->
+                <div class="system-section">
+                    <div class="section-header">
+                        III. HEATING, VENTILATION AND AIR CONDITIONING SYSTEMS
+                    </div>
+
+                    <div class="system-item">
+                        <div class="checkboxes">
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                        </div>
+                        <div class="item-description">
+                            <span class="item-label">A. Heating Equipment</span>
+                            <div class="sub-field">
+                                <em>Type of Systems:</em>
+                            </div>
+                            <div class="sub-field">
+                                <em>Energy Sources:</em>
+                            </div>
+                            <div class="sub-field"><em>Comments:</em></div>
+                        </div>
+                    </div>
+
+                    <div class="system-item">
+                        <div class="checkboxes">
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                        </div>
+                        <div class="item-description">
+                            <span class="item-label">B. Cooling Equipment</span>
+                            <div class="sub-field">
+                                <em>Type of Systems:</em>
+                            </div>
+                            <div class="sub-field"><em>Comments:</em></div>
+                        </div>
+                    </div>
+
+                    <div class="system-item">
+                        <div class="checkboxes">
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                        </div>
+                        <div class="item-description">
+                            <span class="item-label"
+                                >C. Duct Systems, Chases, and Vents</span
+                            >
+                            <div class="sub-field"><em>Comments:</em></div>
+                        </div>
+                    </div>
+
+                    <div class="system-item">
+                        <div class="checkboxes">
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                        </div>
+                        <div class="item-description">
+                            <span class="item-label">D. Other</span>
+                            <div class="sub-field"><em>Comments:</em></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plumbing Systems -->
+                <div class="system-section">
+                    <div class="section-header">IV. PLUMBING SYSTEMS</div>
+
+                    <div class="system-item">
+                        <div class="checkboxes">
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                        </div>
+                        <div class="item-description">
+                            <span class="item-label"
+                                >A. Plumbing Supply, Distribution Systems and
+                                Fixtures</span
+                            >
+                            <div class="sub-field">
+                                <em>Location of water meter:</em>
+                            </div>
+                            <div class="sub-field">
+                                <em>Location of main water supply valve:</em>
+                            </div>
+                            <div class="sub-field">
+                                <em>Static water pressure reading:</em>
+                            </div>
+                            <div class="sub-field">
+                                <em>Type of supply piping material:</em>
+                            </div>
+                            <div class="sub-field"><em>Comments:</em></div>
+                        </div>
+                    </div>
+
+                    <div class="system-item">
+                        <div class="checkboxes">
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                        </div>
+                        <div class="item-description">
+                            <span class="item-label"
+                                >B. Drains, Wastes, and Vents</span
+                            >
+                            <div class="sub-field">
+                                <em>Type of drain piping material:</em>
+                            </div>
+                            <div class="sub-field"><em>Comments:</em></div>
+                        </div>
+                    </div>
+
+                    <div class="system-item">
+                        <div class="checkboxes">
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                            <div class="checkbox"></div>
+                        </div>
+                        <div class="item-description">
+                            <span class="item-label"
+                                >C. Water Heating Equipment</span
+                            >
+                            <div class="sub-field">
+                                <em>Energy Sources:</em>
+                            </div>
+                            <div class="sub-field"><em>Capacity:</em></div>
+                            <div class="sub-field"><em>Comments:</em></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page Footer -->
+                <!-- <div class="footer-line">
+                <div style="text-align: center;">Page 4 of ___</div>
+            </div>
+            
+            <div class="page-footer">
+                <div>REI 7-6 (8/9/21) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Promulgated by the Texas Real Estate Commission • (512) 936-3000 • <span class="underlined">www.trec.texas.gov</span></div>
+            </div> -->
+            </div>
+        </div>
+    </body>
+</html>

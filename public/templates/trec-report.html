@@ -1,0 +1,98 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Property Inspection Report</title>
+        <style>
+            @page {
+                margin: 20mm;
+            }
+            body {
+                font-family: Arial, sans-serif;
+                font-size: 11px;
+                color: #222;
+            }
+            h1,
+            h2,
+            h3 {
+                color: #000;
+                margin-bottom: 5px;
+            }
+            .header {
+                border-bottom: 2px solid #000;
+                padding-bottom: 5px;
+                margin-bottom: 10px;
+            }
+            .field {
+                display: flex;
+                justify-content: space-between;
+                font-size: 11px;
+                margin-bottom: 4px;
+            }
+            .section {
+                border-top: 1px solid #999;
+                margin-top: 15px;
+                padding-top: 10px;
+                page-break-inside: avoid;
+            }
+            .comments {
+                margin-top: 6px;
+                padding-left: 15px;
+            }
+            .comment {
+                margin-bottom: 6px;
+            }
+            .photo {
+                width: 180px;
+                margin: 3px 0;
+                border-radius: 4px;
+            }
+            .additional-info {
+                border-top: 1px dashed #666;
+                margin-top: 15px;
+                padding-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h2>Property Inspection Report</h2>
+            <div class="field"><b>Name of Client:</b> {{clientName}}</div>
+            <div class="field">
+                <b>Date of Inspection:</b> {{inspectionDate}}
+            </div>
+            <div class="field"><b>Address:</b> {{propertyAddress}}</div>
+            <div class="field"><b>Inspector:</b> {{inspectorName}}</div>
+            <div class="field"><b>TREC License:</b> {{license}}</div>
+        </div>
+
+        <div class="static-text">
+            <h3>PURPOSE OF INSPECTION</h3>
+            <p>
+                A real estate inspection is a visual survey... (copy from PDF)
+            </p>
+        </div>
+
+        {{#each sections}} {{#if hasComments}}
+        <div class="section">
+            <h3>{{name}}</h3>
+            <div class="comments">
+                {{#each lineItems}} {{#each comments}}
+                <div class="comment">
+                    <b>{{../name}}</b><br />
+                    <p>{{this.text}}</p>
+                    {{#each this.photos}}
+                    <img alt="" src="{{this}}" class="photo" />
+                    {{/each}}
+                </div>
+                {{/each}} {{/each}}
+            </div>
+        </div>
+        {{/if}} {{/each}}
+
+        <div class="additional-info">
+            <h3>ADDITIONAL INFORMATION PROVIDED BY INSPECTOR</h3>
+            <p>{{additionalInfo}}</p>
+        </div>
+    </body>
+</html>
