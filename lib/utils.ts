@@ -428,7 +428,7 @@ export async function generateModernReport(data: RootObject): Promise<Buffer> {
         inspectionDate: data.inspection?.schedule
             ? formatScheduleDateTime(data.inspection.schedule)
             : "N/A",
-        inspectorName: data.inspection?.inspector?.name || "N/A",
+        inspectorName: data.inspection?.inspector?.name || "",
         license:
             data.inspection?.inspector?.licenseNumber ||
             "License Not Specified",
