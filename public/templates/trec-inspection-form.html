@@ -21,37 +21,6 @@
                 background: white;
             }
 
-            .header {
-                display: flex;
-                align-items: center;
-                margin-bottom: 20px;
-                border-bottom: 2px solid black;
-                padding-bottom: 10px;
-            }
-
-            .logo {
-                width: 120px;
-                height: 80px;
-                border: 2px solid black;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                margin-right: 20px;
-                font-weight: bold;
-            }
-
-            .logo-text {
-                font-size: 24px;
-                font-weight: bold;
-            }
-
-            .logo-subtitle {
-                font-size: 8px;
-                text-align: center;
-                margin-top: 5px;
-            }
-
             .title {
                 font-size: 20px;
                 font-weight: bold;
@@ -107,13 +76,14 @@
             }
 
             .bullet-point {
-                margin-left: 20px;
-                margin-bottom: 3px;
+                display: flex;
+                align-items: center;
             }
 
             .bullet-point:before {
                 content: "• ";
-                margin-right: 5px;
+                font-size: 18px;
+                margin-right: 7px;
             }
 
             .underlined {
@@ -122,6 +92,10 @@
 
             .bold {
                 font-weight: bold;
+            }
+
+            .no-margin {
+                margin: 0;
             }
 
             .italic {
@@ -172,6 +146,27 @@
                 margin-right: 8px;
                 display: inline-block;
                 cursor: pointer;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                background: white;
+                position: relative;
+            }
+
+            .checkbox:checked::after {
+                content: "✕";
+                position: absolute;
+                top: -1px;
+                left: 0px;
+                font-size: 12px;
+                font-weight: bold;
+                color: black;
+                line-height: 1;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .section-header {
@@ -183,10 +178,18 @@
 
             .inspection-legend {
                 display: flex;
-                justify-content: space-between;
+                font-weight: bold;
+                display: flex;
+                gap: 24px;
+                margin-bottom: 8px;
+            }
+
+            .inspection-row {
+                display: flex;
+                padding: 2px 7px;
                 border: 2px solid black;
-                padding: 8px;
-                margin: 15px 0;
+                display: flex;
+                gap: 12px;
                 font-weight: bold;
             }
 
@@ -206,7 +209,7 @@
             .system-item {
                 display: flex;
                 align-items: flex-start;
-                margin: 8px 0;
+                margin: 12px 0;
             }
 
             .checkboxes {
@@ -224,17 +227,87 @@
             }
 
             .sub-field {
-                font-style: italic;
-                margin-left: 20px;
+                margin-top: 10px;
+                font-size: 13px;
+            }
+
+            .comment-text {
+                white-space: pre-line;
+                word-wrap: break-word;
+                line-height: 1.4;
+            }
+
+            .sub-field:first-child {
+                margin-top: 0 !important;
+            }
+
+            .sub-field p,
+            .sub-field em {
+                margin-top: 0;
+                padding-top: 0;
+            }
+
+            .media-section {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                align-items: start;
+                gap: 4px;
+                margin-top: 8px;
+            }
+
+            .media-item {
                 margin-top: 3px;
+            }
+
+            .media-link {
+                color: #0066cc;
+                text-decoration: underline;
+            }
+
+            .media-type {
+                color: #666;
                 font-size: 10px;
+            }
+
+            .media-image {
+                width: 100%;
+                max-width: 200px;
+                height: auto;
+                max-height: 350px;
+                margin: 5px 0;
+                display: block;
+            }
+
+            .media-video {
+                width: 100%;
+                height: auto;
+                max-height: 200px;
+                margin: 5px 0;
+                display: block;
+            }
+
+            .media-caption {
+                font-size: 10px;
+                color: #666;
+                font-style: italic;
+                margin-top: 2px;
+            }
+
+            .media-link .media-video {
+                cursor: pointer;
+                border: 2px solid transparent;
+                transition: border-color 0.2s;
+            }
+
+            .media-link .media-video:hover {
+                border-color: #0066cc;
             }
         </style>
     </head>
     <body>
         <div class="container">
             <!-- Page 2 Content -->
-            <div style="page-break-before: always; margin-top: 40px">
+            <div style="page-break-before: always">
                 <!-- Hazardous Conditions Notice -->
                 <div class="hazard-section">
                     <div class="hazard-title">
@@ -382,197 +455,104 @@
                     <div class="legend-item">D=Deficient</div>
                 </div>
 
-                <!-- Electrical Systems -->
-                <div class="system-section">
-                    <div class="section-header">II. ELECTRICAL SYSTEMS</div>
-
-                    <div class="system-item">
-                        <div class="checkboxes">
-                            <input type="checkbox" class="checkbox" aria-label="Service Entrance and Panels - Inspected" />
-                            <input type="checkbox" class="checkbox" aria-label="Service Entrance and Panels - Not Inspected" />
-                            <input type="checkbox" class="checkbox" aria-label="Service Entrance and Panels - Not Present" />
-                            <input type="checkbox" class="checkbox" aria-label="Service Entrance and Panels - Deficient" />
-                        </div>
-                        <div class="item-description">
-                            <span class="item-label"
-                                >A. Service Entrance and Panels</span
-                            >
-                            <div class="sub-field"><em>Comments:</em></div>
-                        </div>
-                    </div>
-
-                    <div class="system-item">
-                        <div class="checkboxes">
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                        </div>
-                        <div class="item-description">
-                            <span class="item-label"
-                                >B. Branch Circuits, Connected Devices, and
-                                Fixtures</span
-                            >
-                            <div class="sub-field">
-                                <em>Type of Wiring:</em>
-                            </div>
-                            <div class="sub-field"><em>Comments:</em></div>
-                        </div>
-                    </div>
-
-                    <div class="system-item">
-                        <div class="checkboxes">
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                        </div>
-                        <div class="item-description">
-                            <span class="item-label">C. Other</span>
-                            <div class="sub-field"><em>Comments:</em></div>
-                        </div>
-                    </div>
+                <div class="inspection-row">
+                    <div class="legend-item">I</div>
+                    <div class="legend-item">NI</div>
+                    <div class="legend-item">NP</div>
+                    <div class="legend-item">D</div>
                 </div>
 
-                <!-- HVAC Systems -->
+                <!-- Dynamic Sections from inspection data -->
+                {{#each sections}} {{#if (hasComments lineItems)}}
                 <div class="system-section">
                     <div class="section-header">
-                        III. HEATING, VENTILATION AND AIR CONDITIONING SYSTEMS
+                        {{toRoman sectionNumber}}. {{name}}
                     </div>
 
+                    {{#each lineItems}} {{#if comments.length}}
                     <div class="system-item">
                         <div class="checkboxes">
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                        </div>
-                        <div class="item-description">
-                            <span class="item-label">A. Heating Equipment</span>
-                            <div class="sub-field">
-                                <em>Type of Systems:</em>
-                            </div>
-                            <div class="sub-field">
-                                <em>Energy Sources:</em>
-                            </div>
-                            <div class="sub-field"><em>Comments:</em></div>
-                        </div>
-                    </div>
-
-                    <div class="system-item">
-                        <div class="checkboxes">
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                        </div>
-                        <div class="item-description">
-                            <span class="item-label">B. Cooling Equipment</span>
-                            <div class="sub-field">
-                                <em>Type of Systems:</em>
-                            </div>
-                            <div class="sub-field"><em>Comments:</em></div>
-                        </div>
-                    </div>
-
-                    <div class="system-item">
-                        <div class="checkboxes">
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
+                            <input type="checkbox" class="checkbox"
+                            aria-label="{{title}} - Inspected" {{#if (eq
+                            inspectionStatus 'I')}}checked{{/if}} /> <input
+                            type="checkbox" class="checkbox"
+                            aria-label="{{title}} - Not Inspected" {{#if (eq
+                            inspectionStatus 'NI')}}checked{{/if}} /> <input
+                            type="checkbox" class="checkbox"
+                            aria-label="{{title}} - Not Present" {{#if (eq
+                            inspectionStatus 'NP')}}checked{{/if}} /> <input
+                            type="checkbox" class="checkbox"
+                            aria-label="{{title}} - Deficient" {{#if
+                            isDeficient}}checked{{/if}} />
                         </div>
                         <div class="item-description">
                             <span class="item-label"
-                                >C. Duct Systems, Chases, and Vents</span
+                                >{{indexToLetter @index}}. {{title}}</span
                             >
-                            <div class="sub-field"><em>Comments:</em></div>
+                            <p class="italic no-margin">Comments:</p>
+                            {{#each comments}}
+                            <div class="sub-field">
+                                <em class="italic">{{label}}:</em>
+                                <span class="comment-text"
+                                    >{{formatCommentText commentText}}</span
+                                >
+                                {{#if photos.length}}
+                                <div class="media-section">
+                                    {{#each photos}}
+                                    <div class="media-item">
+                                        <img
+                                            src="{{url}}"
+                                            alt="{{#if caption}}{{caption}}{{else}}Inspection Photo{{/if}}"
+                                            class="media-image"
+                                        />
+                                        {{#if caption}}
+                                        <div class="media-caption">
+                                            {{caption}}
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    {{/each}}
+                                </div>
+                                {{/if}} {{#if videos.length}}
+                                <div class="media-section">
+                                    {{#each videos}}
+                                    <div class="media-item">
+                                        <a
+                                            href="https://app.binsrinspect.com/video/222a19173e9248d0b41984849bd93e2f1af0b57f2c1?url={{url}}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="media-link"
+                                            title="Click to open video in new tab{{#if caption}} - {{caption}}{{/if}}"
+                                        >
+                                            <video
+                                                controls
+                                                class="media-video"
+                                                preload="metadata"
+                                            >
+                                                <source
+                                                    src="{{url}}#t=0.1"
+                                                    type="{{#if fileType}}{{fileType}}{{else}}video/mp4{{/if}}"
+                                                />
+                                                Your browser does not support
+                                                the video tag.
+                                            </video>
+                                        </a>
+                                        {{#if caption}}
+                                        <div class="media-caption">
+                                            {{caption}}
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    {{/each}}
+                                </div>
+                                {{/if}}
+                            </div>
+                            {{/each}}
                         </div>
                     </div>
-
-                    <div class="system-item">
-                        <div class="checkboxes">
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                        </div>
-                        <div class="item-description">
-                            <span class="item-label">D. Other</span>
-                            <div class="sub-field"><em>Comments:</em></div>
-                        </div>
-                    </div>
+                    {{/if}} {{/each}}
                 </div>
-
-                <!-- Plumbing Systems -->
-                <div class="system-section">
-                    <div class="section-header">IV. PLUMBING SYSTEMS</div>
-
-                    <div class="system-item">
-                        <div class="checkboxes">
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                        </div>
-                        <div class="item-description">
-                            <span class="item-label"
-                                >A. Plumbing Supply, Distribution Systems and
-                                Fixtures</span
-                            >
-                            <div class="sub-field">
-                                <em>Location of water meter:</em>
-                            </div>
-                            <div class="sub-field">
-                                <em>Location of main water supply valve:</em>
-                            </div>
-                            <div class="sub-field">
-                                <em>Static water pressure reading:</em>
-                            </div>
-                            <div class="sub-field">
-                                <em>Type of supply piping material:</em>
-                            </div>
-                            <div class="sub-field"><em>Comments:</em></div>
-                        </div>
-                    </div>
-
-                    <div class="system-item">
-                        <div class="checkboxes">
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                        </div>
-                        <div class="item-description">
-                            <span class="item-label"
-                                >B. Drains, Wastes, and Vents</span
-                            >
-                            <div class="sub-field">
-                                <em>Type of drain piping material:</em>
-                            </div>
-                            <div class="sub-field"><em>Comments:</em></div>
-                        </div>
-                    </div>
-
-                    <div class="system-item">
-                        <div class="checkboxes">
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                            <div class="checkbox"></div>
-                        </div>
-                        <div class="item-description">
-                            <span class="item-label"
-                                >C. Water Heating Equipment</span
-                            >
-                            <div class="sub-field">
-                                <em>Energy Sources:</em>
-                            </div>
-                            <div class="sub-field"><em>Capacity:</em></div>
-                            <div class="sub-field"><em>Comments:</em></div>
-                        </div>
-                    </div>
-                </div>
+                {{/if}} {{/each}}
 
                 <!-- Page Footer -->
                 <!-- <div class="footer-line">

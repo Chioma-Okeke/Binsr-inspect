@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Home Inspection Report</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                    Roboto, "Helvetica Neue", Arial, sans-serif;
+                background: #ffffff;
+                color: #333333;
+                line-height: 1.5;
+                font-size: 14px;
+            }
+
+            .container {
+                max-width: 8.5in;
+                margin: 0 auto;
+                background: white;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            }
+
+            /* Header Section - Inspired by attached image */
+            .header {
+                background: #ffffff;
+                padding: 40px;
+                border-bottom: 1px solid #e5e7eb;
+                position: relative;
+            }
+
+            .company-info {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 32px;
+                padding: 20px;
+                background: #f9fafb;
+                border-radius: 12px;
+                border: 1px solid #e5e7eb;
+            }
+
+            .company-logo-section {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .company-logo {
+                width: 60px;
+                height: 60px;
+                background: #3b82f6;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: 700;
+                font-size: 18px;
+                flex-shrink: 0;
+            }
+
+            .company-logo img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                border-radius: 8px;
+            }
+
+            .company-details h1 {
+                font-size: 24px;
+                font-weight: 700;
+                color: #1f2937;
+                margin-bottom: 4px;
+            }
+
+            .company-contact {
+                font-size: 14px;
+                color: #6b7280;
+                margin-bottom: 2px;
+            }
+
+            .company-contact-right {
+                text-align: right;
+                font-size: 14px;
+                color: #6b7280;
+            }
+
+            .property-image {
+                width: 100%;
+                height: 280px;
+                object-fit: cover;
+                border-radius: 12px;
+                margin-bottom: 32px;
+                border: 1px solid #e5e7eb;
+            }
+
+            .report-title-section {
+                text-align: center;
+                margin-bottom: 32px;
+            }
+
+            .report-title {
+                font-size: 36px;
+                font-weight: 700;
+                color: #1f2937;
+                margin-bottom: 8px;
+            }
+
+            .report-subtitle {
+                font-size: 18px;
+                color: #6b7280;
+                font-weight: 500;
+            }
+
+            .property-info-card {
+                background: #f9fafb;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 24px;
+                margin-bottom: 24px;
+            }
+
+            .property-address {
+                font-size: 20px;
+                font-weight: 600;
+                color: #1f2937;
+                text-align: center;
+                margin-bottom: 8px;
+            }
+
+            .property-client {
+                font-size: 16px;
+                color: #6b7280;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .property-date {
+                font-size: 14px;
+                color: #6b7280;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .inspector-info {
+                display: flex;
+                justify-content: space-between;
+                gap: 20px;
+            }
+
+            .inspector-card {
+                flex: 1;
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 16px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .inspector-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: #3b82f6;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 600;
+                font-size: 14px;
+                flex-shrink: 0;
+            }
+
+            .inspector-details {
+                flex: 1;
+            }
+
+            .inspector-label {
+                font-size: 11px;
+                text-transform: uppercase;
+                color: #6b7280;
+                font-weight: 600;
+                margin-bottom: 2px;
+            }
+
+            .inspector-name {
+                font-size: 14px;
+                font-weight: 600;
+                color: #1f2937;
+            }
+
+            .inspector-license {
+                font-size: 12px;
+                color: #6b7280;
+            }
+
+            /* Table of Contents */
+            .toc-section {
+                background: #ffffff;
+                padding: 40px;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .toc-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 32px;
+                padding-bottom: 16px;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .toc-title {
+                font-size: 28px;
+                font-weight: 700;
+                color: #1f2937;
+            }
+
+            .toc-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .toc-item {
+                display: flex;
+                align-items: center;
+                padding: 12px 0;
+                border-bottom: 1px solid #f3f4f6;
+                font-size: 16px;
+                color: #374151;
+            }
+
+            .toc-number {
+                font-weight: 600;
+                color: #1f2937;
+                min-width: 24px;
+                margin-right: 16px;
+            }
+
+            /* Section Styles */
+            .section {
+                padding: 40px;
+                border-bottom: 1px solid #e5e7eb;
+                page-break-inside: avoid;
+            }
+
+            .section:last-of-type {
+                border-bottom: none;
+            }
+
+            .section-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 32px;
+                padding-bottom: 16px;
+                border-bottom: 2px solid #e5e7eb;
+            }
+
+            .section-number {
+                font-size: 32px;
+                font-weight: 700;
+                color: #1f2937;
+                margin-right: 16px;
+                min-width: 50px;
+            }
+
+            .section-title {
+                font-size: 24px;
+                font-weight: 700;
+                color: #1f2937;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            /* Line Items */
+            .line-item {
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                margin-bottom: 24px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+                page-break-inside: avoid;
+            }
+
+            .line-item-header {
+                background: #f9fafb;
+                padding: 20px;
+                border-bottom: 1px solid #e5e7eb;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .line-item-number-title {
+                display: flex;
+                align-items: center;
+                flex: 1;
+            }
+
+            .line-item-number {
+                font-size: 18px;
+                font-weight: 700;
+                color: #3b82f6;
+                margin-right: 12px;
+                min-width: 32px;
+            }
+
+            .line-item-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: #1f2937;
+                line-height: 1.4;
+            }
+
+            .status-indicators {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+                flex-shrink: 0;
+            }
+
+            .status-badge {
+                padding: 6px 12px;
+                border-radius: 6px;
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .status-badge.inspected {
+                background: #d1fae5;
+                color: #047857;
+                border: 1px solid #a7f3d0;
+            }
+
+            .status-badge.not-inspected {
+                background: #fef3c7;
+                color: #b45309;
+                border: 1px solid #fde68a;
+            }
+
+            .status-badge.not-present {
+                background: #dbeafe;
+                color: #1d4ed8;
+                border: 1px solid #bfdbfe;
+            }
+
+            .status-badge.deficient {
+                background: #fee2e2;
+                color: #dc2626;
+                border: 1px solid #fecaca;
+            }
+
+            /* Comments */
+            .comments-section {
+                padding: 24px;
+            }
+
+            .comment {
+                background: #f9fafb;
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 16px;
+            }
+
+            .comment:last-child {
+                margin-bottom: 0;
+            }
+
+            .comment-label {
+                font-size: 12px;
+                font-weight: 700;
+                color: #6b7280;
+                text-transform: uppercase;
+                margin-bottom: 12px;
+                letter-spacing: 0.5px;
+            }
+
+            .comment-text {
+                font-size: 14px;
+                color: #1f2937;
+                line-height: 1.6;
+                white-space: pre-line;
+                word-wrap: break-word;
+            }
+
+            /* Media Styles */
+            .media-section {
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px solid #e5e7eb;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 16px;
+            }
+
+            .media-item {
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .media-image {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+                display: block;
+            }
+
+            .media-video {
+                width: 100%;
+                height: 200px;
+                display: block;
+            }
+
+            .media-video-link {
+                text-decoration: none;
+                color: inherit;
+                display: block;
+            }
+
+            .media-caption {
+                padding: 12px;
+                font-size: 13px;
+                color: #6b7280;
+                line-height: 1.4;
+                border-top: 1px solid #f3f4f6;
+            }
+
+            .media-type {
+                font-size: 11px;
+                color: #9ca3af;
+                text-transform: uppercase;
+                font-weight: 600;
+                margin-top: 4px;
+            }
+
+            /* Footer */
+            .footer {
+                background: #1f2937;
+                padding: 32px 40px;
+                color: #d1d5db;
+                font-size: 12px;
+                page-break-inside: avoid;
+            }
+
+            .footer-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+
+            .footer-left {
+                font-weight: 600;
+            }
+
+            .footer-right {
+                color: #9ca3af;
+            }
+
+            .footer-link {
+                color: #60a5fa;
+                text-decoration: none;
+            }
+
+            .footer-link:hover {
+                text-decoration: underline;
+            }
+
+            /* Empty State */
+            .empty-state {
+                text-align: center;
+                padding: 80px 40px;
+                color: #6b7280;
+            }
+
+            .empty-state-icon {
+                font-size: 48px;
+                margin-bottom: 16px;
+                opacity: 0.5;
+            }
+
+            .empty-state-title {
+                font-size: 20px;
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: #374151;
+            }
+
+            .empty-state-description {
+                font-size: 16px;
+                line-height: 1.5;
+            }
+
+            /* Print Styles */
+            @media print {
+                body {
+                    background: white;
+                }
+
+                .container {
+                    box-shadow: none;
+                    border-radius: 0;
+                }
+
+                .section,
+                .line-item {
+                    break-inside: avoid;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header Section -->
+            <div class="header">
+                <!-- Company Information Bar -->
+                <div class="company-info">
+                    <div class="company-logo-section">
+                        <div class="company-logo">
+                            {{#if companyLogo}}
+                            <img src="{{companyLogo}}" alt="{{companyName}}" />
+                            {{else}} {{#if companyName}}{{substring companyName
+                            0 3}}{{else}}XYZ{{/if}} {{/if}}
+                        </div>
+                        <div class="company-details">
+                            <h1>
+                                {{#if companyName}}{{companyName}}{{else}}XYZ
+                                Inspections{{/if}}
+                            </h1>
+                            {{#if companyAddress.street}}
+                            <div class="company-contact">
+                                {{companyAddress.street}}
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="company-contact-right">
+                        {{#if
+                        phoneNumber}}{{phoneNumber}}{{else}}555-123-4567{{/if}}<br />
+                        {{#if
+                        email}}{{email}}{{else}}mark.s.garcia.sf@gmail.com{{/if}}
+                    </div>
+                </div>
+
+                <!-- Property Image Placeholder -->
+                <img
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='280' viewBox='0 0 600 280'%3E%3Crect width='600' height='280' fill='%23f3f4f6'/%3E%3Ctext x='300' y='140' text-anchor='middle' font-family='Arial' font-size='16' fill='%236b7280'%3EProperty Photo%3C/text%3E%3C/svg%3E"
+                    alt="Property Photo"
+                    class="property-image"
+                />
+
+                <!-- Report Title -->
+                <div class="report-title-section">
+                    <h1 class="report-title">Home Inspection Report</h1>
+                    <p class="report-subtitle">
+                        Comprehensive Property Assessment
+                    </p>
+                </div>
+
+                <!-- Property Information Card -->
+                <div class="property-info-card">
+                    <div class="property-address">{{propertyAddress}}</div>
+                    <div class="property-client">{{clientName}}</div>
+                    <div class="property-date">
+                        Inspection Date: {{inspectionDate}}
+                    </div>
+
+                    <!-- Inspector Information -->
+                    <div class="inspector-info">
+                        <div class="inspector-card">
+                            <div class="inspector-avatar">
+                                {{#if inspectorName}}{{substring inspectorName 0
+                                2}}{{else}}MG{{/if}}
+                            </div>
+                            <div class="inspector-details">
+                                <div class="inspector-label">INSPECTOR</div>
+                                <div class="inspector-name">
+                                    {{#if
+                                    inspectorName}}{{inspectorName}}{{else}}Mark
+                                    Garcia{{/if}}
+                                </div>
+                                <div class="inspector-license">
+                                    {{#if
+                                    email}}{{email}}{{else}}mark.s.garcia.sf@gmail.com{{/if}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inspector-card">
+                            <div class="inspector-avatar">MA</div>
+                            <div class="inspector-details">
+                                <div class="inspector-label">PRIMARY AGENT</div>
+                                <div class="inspector-name">Mark Agent</div>
+                                <div class="inspector-license">
+                                    510381725<br />mark@agent.app
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table of Contents -->
+            <div class="toc-section">
+                <div class="toc-header">
+                    <h2 class="toc-title">Table of Contents</h2>
+                    <div class="property-date">
+                        {{propertyAddress}}<br />{{inspectionDate}}
+                    </div>
+                </div>
+                <ul class="toc-list">
+                    {{#each sections}} {{#if (hasComments lineItems)}}
+                    <li class="toc-item">
+                        <span class="toc-number">{{sectionNumber}}.</span>
+                        <span>{{name}}</span>
+                    </li>
+                    {{/if}} {{/each}}
+                </ul>
+            </div>
+
+            <!-- Dynamic Sections -->
+            {{#each sections}} {{#if (hasComments lineItems)}}
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">{{sectionNumber}}.</div>
+                    <div class="section-title">{{name}}</div>
+                </div>
+
+                {{#each lineItems}} {{#if comments.length}}
+                <div class="line-item">
+                    <div class="line-item-header">
+                        <div class="line-item-number-title">
+                            <div class="line-item-number">
+                                {{../sectionNumber}}.{{lineItemNumber}}
+                            </div>
+                            <div class="line-item-title">{{title}}</div>
+                        </div>
+                        <div class="status-indicators">
+                            {{#if (eq inspectionStatus 'I')}}
+                            <span class="status-badge inspected"
+                                >Inspected</span
+                            >
+                            {{/if}} {{#if (eq inspectionStatus 'NI')}}
+                            <span class="status-badge not-inspected"
+                                >Not Inspected</span
+                            >
+                            {{/if}} {{#if (eq inspectionStatus 'NP')}}
+                            <span class="status-badge not-present"
+                                >Not Present</span
+                            >
+                            {{/if}} {{#if isDeficient}}
+                            <span class="status-badge deficient"
+                                >Deficient</span
+                            >
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class="comments-section">
+                        {{#each comments}}
+                        <div class="comment">
+                            <div class="comment-label">{{label}}</div>
+                            <div class="comment-text">
+                                {{formatCommentText commentText}}
+                            </div>
+
+                            {{#if photos.length}}
+                            <div class="media-section">
+                                {{#each photos}}
+                                <div class="media-item">
+                                    <img
+                                        src="{{url}}"
+                                        alt="{{#if caption}}{{caption}}{{else}}Inspection Photo{{/if}}"
+                                        class="media-image"
+                                    />
+                                    {{#if caption}}
+                                    <div class="media-caption">
+                                        {{caption}} {{#if fileType}}
+                                        <div class="media-type">
+                                            {{fileType}}
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    {{/if}}
+                                </div>
+                                {{/each}}
+                            </div>
+                            {{/if}} {{#if videos.length}}
+                            <div class="media-section">
+                                {{#each videos}}
+                                <div class="media-item">
+                                    <a
+                                        href="https://app.binsrinspect.com/video/222a19173e9248d0b41984849bd93e2f1af0b57f2c1?url={{url}}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="media-video-link"
+                                        title="Click to open video in new tab{{#if caption}} - {{caption}}{{/if}}"
+                                    >
+                                        <video
+                                            controls
+                                            class="media-video"
+                                            preload="metadata"
+                                        >
+                                            <source
+                                                src="{{url}}#t=0.1"
+                                                type="{{#if fileType}}{{fileType}}{{else}}video/mp4{{/if}}"
+                                            />
+                                            Your browser does not support the
+                                            video tag.
+                                        </video>
+                                    </a>
+                                    {{#if caption}}
+                                    <div class="media-caption">
+                                        {{caption}} {{#if fileType}}
+                                        <div class="media-type">
+                                            {{fileType}}
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    {{/if}}
+                                </div>
+                                {{/each}}
+                            </div>
+                            {{/if}}
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+                {{/if}} {{/each}}
+            </div>
+            {{/if}} {{/each}}
+
+            <!-- Empty State -->
+            {{#unless sections}}
+            <div class="empty-state">
+                <div class="empty-state-icon">📋</div>
+                <h3 class="empty-state-title">No Inspection Items Found</h3>
+                <p class="empty-state-description">
+                    No sections with comments were found in this inspection
+                    report.
+                </p>
+            </div>
+            {{/unless}}
+
+            <!-- Additional Information Section -->
+            {{#if additionalInfo}}
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">
+                        {{add (length sections) 1}}.
+                    </div>
+                    <div class="section-title">
+                        Additional Information Provided by Inspector
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <div class="comment">
+                        <div class="comment-label">Inspector Notes</div>
+                        <div class="comment-text">{{additionalInfo}}</div>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    {{#if companyName}}{{companyName}}{{else}}Company
+                    Name{{/if}} • Home Inspection Report • {{inspectionDate}}
+                </div>
+                <div class="footer-right">
+                    XYZ Inspections - Powered By Binsr Inspect • Page
+                    {{pageNumber}} of {{totalPages}}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

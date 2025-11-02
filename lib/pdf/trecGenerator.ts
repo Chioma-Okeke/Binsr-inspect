@@ -66,6 +66,7 @@ export async function mergePdfParts(
     // Add proper page numbering (skip first page)
     const totalPages = mainDoc.getPageCount();
     const font = await mainDoc.embedFont(StandardFonts.Helvetica);
+    const timesFont = await mainDoc.embedFont(StandardFonts.TimesRoman);
 
     mainDoc.getPages().forEach((page, index) => {
         // Skip page numbering on the first page (index 0)
@@ -77,22 +78,77 @@ export async function mergePdfParts(
         // Add page number at bottom center
         page.drawText(`Page ${pageNumber} of ${totalPages}`, {
             x: width / 2 - 30,
-            y: 45,
-            size: 10,
+            y: 25,
+            size: 9,
             font,
             color: rgb(0, 0, 0),
         });
 
-        // Add TREC footer text below page number
+        // Add TREC footer text using full page width
+        const leftMargin = 50;
+        const rightMargin = 50;
+
+        // Left side - REI number (far left)
+        page.drawText("REI 7-6 (8/9/21)", {
+            x: leftMargin,
+            y: 10,
+            size: 10,
+            font: timesFont,
+            color: rgb(0, 0, 0),
+        });
+
+        // Right side text - calculate width to position at far right
+        const rightText =
+            "Promulgated by the Texas Real Estate Commission • (512) 936-3000 • www.trec.texas.gov";
+        const rightTextWidth = timesFont.widthOfTextAtSize(rightText, 10);
+        const rightTextX = width - rightMargin - rightTextWidth;
+
+        // Commission info and website (far right)
         page.drawText(
-            `REI 7-6 (8/9/21)                    Promulgated by the Texas Real Estate Commission • (512) 936-3000 • www.trec.texas.gov`,
+            "Promulgated by the Texas Real Estate Commission • (512) 936-3000 • ",
             {
-                x: 50,
-                y: 30,
-                size: 8,
-                font,
+                x: rightTextX,
+                y: 10,
+                size: 10,
+                font: timesFont,
                 color: rgb(0, 0, 0),
             }
+        );
+
+        // Calculate exact position for the website link
+        const commissionText =
+            "Promulgated by the Texas Real Estate Commission • (512) 936-3000 • ";
+        const commissionTextWidth = timesFont.widthOfTextAtSize(
+            commissionText,
+            10
+        );
+        const linkX = rightTextX + commissionTextWidth;
+
+        // Website link (clickable, continues from commission text)
+        page.drawText("www.trec.texas.gov", {
+            x: linkX,
+            y: 10,
+            size: 10,
+            font: timesFont,
+            color: rgb(0, 0, 1), // Blue color for links
+        });
+
+        // Add clickable link annotation
+        const linkWidth = timesFont.widthOfTextAtSize("www.trec.texas.gov", 10);
+        page.node.addAnnot(
+            mainDoc.context.register(
+                mainDoc.context.obj({
+                    Type: "Annot",
+                    Subtype: "Link",
+                    Rect: [linkX, 25, linkX + linkWidth, 35],
+                    A: {
+                        Type: "Action",
+                        S: "URI",
+                        URI: mainDoc.context.obj("https://www.trec.texas.gov"),
+                    },
+                    Border: [0, 0, 0],
+                })
+            )
         );
     });
 

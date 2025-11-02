@@ -113,7 +113,6 @@ export async function generateStaticPart(data: RootObject) {
         data?.inspection?.inspector?.additionalInfo ||
         "No additional comments were provided by the inspector.";
 
-    // Fill out the form fields
     form.getTextField("Name of Client").setText(
         data.inspection?.clientInfo?.name || ""
     );
@@ -129,13 +128,13 @@ export async function generateStaticPart(data: RootObject) {
         data.inspection?.inspector?.name || ""
     );
     form.getTextField("TREC License").setText(
-        data.inspection?.inspector?.licenseNumber || ""
+        data.inspection?.clientInfo?.name || ""
     );
     form.getTextField("Name of Sponsor if applicable").setText(
-        data.inspection?.inspector?.sponsor || "N/A"
+        data.inspection?.clientInfo?.name || ""
     );
     form.getTextField("TREC License_2").setText(
-        data.inspection?.inspector?.sponsorLicense || ""
+        data.inspection?.clientInfo?.name || ""
     );
     form.getTextField("Text1").setText(additionalInformation);
 
@@ -154,6 +153,90 @@ export async function generateStaticPart(data: RootObject) {
 export async function generateDynamicSections(
     sections: RootObject_Inspection_SectionsItem[]
 ) {
+    // Register Handlebars helpers
+    Handlebars.registerHelper("eq", function (a, b) {
+        return a === b;
+    });
+
+    Handlebars.registerHelper("hasComments", function (lineItems) {
+        return (
+            lineItems &&
+            lineItems.some(
+                (item: { comments?: unknown[] }) =>
+                    item.comments && item.comments.length > 0
+            )
+        );
+    });
+
+    // Helper to convert numbers to Roman numerals
+    Handlebars.registerHelper("toRoman", function (num) {
+        // Convert string to number if needed
+        const number = typeof num === "string" ? parseInt(num, 10) : num;
+
+        if (!number || number < 1) return "I";
+
+        const values = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+        const numerals = [
+            "M",
+            "CM",
+            "D",
+            "CD",
+            "C",
+            "XC",
+            "L",
+            "XL",
+            "X",
+            "IX",
+            "V",
+            "IV",
+            "I",
+        ];
+        let result = "";
+        let n = number;
+
+        for (let i = 0; i < values.length; i++) {
+            while (n >= values[i]) {
+                result += numerals[i];
+                n -= values[i];
+            }
+        }
+
+        return result;
+    });
+
+    // Helper to format comment text with proper line breaks
+    Handlebars.registerHelper("formatCommentText", function (text) {
+        // Just return the text as-is, let CSS handle line breaks
+        return text;
+    });
+
+    // Helper to convert numbers to capital letters (1->A, 2->B, etc.)
+    Handlebars.registerHelper("toLetter", function (num) {
+        if (typeof num !== "number" || num < 1) {
+            return "A";
+        }
+
+        let result = "";
+        let n = num - 1; // Convert to 0-based indexing
+
+        do {
+            result = String.fromCharCode(65 + (n % 26)) + result;
+            n = Math.floor(n / 26) - 1;
+        } while (n >= 0);
+
+        return result;
+    });
+
+    // Helper to convert array index to capital letters (resets per section)
+    Handlebars.registerHelper("indexToLetter", function (index) {
+        if (typeof index !== "number" || index < 0) {
+            return "A";
+        }
+
+        // Simple conversion: 0->A, 1->B, 2->C, etc.
+        return String.fromCharCode(65 + index);
+    });
+
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     const templatePath = path.join(
@@ -163,7 +246,8 @@ export async function generateDynamicSections(
     const templateHtml = fs.readFileSync(templatePath, "utf8");
     const compiledTemplate = Handlebars.compile(templateHtml);
 
-    const html = compiledTemplate(sections);
+    // Pass sections as the data object for the template
+    const html = compiledTemplate({ sections });
     await page.setContent(html, { waitUntil: "networkidle0" });
 
     const pdfBuffer = await page.pdf({
@@ -230,4 +314,118 @@ export async function generateCompleteTRECReport(data: RootObject) {
 
     const finalPdfBytes = await mergedPdf.save();
     return finalPdfBytes;
+}
+
+export async function generateModernReport(data: RootObject): Promise<Buffer> {
+    // Register Handlebars helpers
+    Handlebars.registerHelper("toRoman", (num: number | string) => {
+        // Convert string to number if needed
+        const number = typeof num === "string" ? parseInt(num, 10) : num;
+
+        if (!number || number < 1) return "I";
+
+        const romanNumerals = [
+            ["M", 1000],
+            ["CM", 900],
+            ["D", 500],
+            ["CD", 400],
+            ["C", 100],
+            ["XC", 90],
+            ["L", 50],
+            ["XL", 40],
+            ["X", 10],
+            ["IX", 9],
+            ["V", 5],
+            ["IV", 4],
+            ["I", 1],
+        ] as const;
+
+        let result = "";
+        let n = number;
+
+        for (const [roman, value] of romanNumerals) {
+            while (n >= value) {
+                result += roman;
+                n -= value;
+            }
+        }
+        return result;
+    });
+
+    Handlebars.registerHelper("indexToLetter", (index: number) => {
+        if (typeof index !== "number" || index < 0) {
+            return "A";
+        }
+        // Simple conversion: 0->A, 1->B, 2->C, etc.
+        return String.fromCharCode(65 + index);
+    });
+
+    Handlebars.registerHelper("formatCommentText", (text: string) => {
+        if (!text) return "";
+        return text.replace(/\n/g, "<br>");
+    });
+
+    Handlebars.registerHelper("eq", function (a, b) {
+        return a === b;
+    });
+
+    Handlebars.registerHelper("hasComments", function (lineItems) {
+        return (
+            lineItems &&
+            lineItems.some(
+                (item: { comments?: unknown[] }) =>
+                    item.comments && item.comments.length > 0
+            )
+        );
+    });
+
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+    const templatePath = path.join(
+        process.cwd(),
+        "public/templates/modern-inspection-report.html"
+    );
+    const templateHtml = fs.readFileSync(templatePath, "utf8");
+    const compiledTemplate = Handlebars.compile(templateHtml);
+
+    // Prepare template data with all required fields
+    const templateData = {
+        companyName: data.account?.companyName || "Inspection Company",
+        companyLogo: data.account?.companyLogo || null,
+        phoneNumber: data.account?.phoneNumber || "",
+        email: data.account?.email || "",
+        companyAddress: data.account?.companyAddress || {},
+        clientName: data.inspection?.clientInfo?.name || "N/A",
+        propertyAddress: data.inspection?.address?.fullAddress || "N/A",
+        inspectionDate: data.inspection?.schedule
+            ? formatScheduleDateTime(data.inspection.schedule)
+            : "N/A",
+        inspectorName: data.inspection?.inspector?.name || "N/A",
+        license:
+            data.inspection?.inspector?.licenseNumber ||
+            "License Not Specified",
+        sections: data.inspection?.sections || [],
+        additionalInfo: data.inspection?.inspector?.additionalInfo || null,
+    };
+
+    const html = compiledTemplate(templateData);
+
+    await page.setContent(html, { waitUntil: "networkidle0" });
+
+    const generatePDFOptions = {
+        format: "letter" as const,
+        printBackground: true,
+        margin: {
+            top: "0.5in",
+            right: "0.5in",
+            bottom: "0.5in",
+            left: "0.5in",
+        },
+        preferCSSPageSize: true,
+    };
+
+    const modernPdf = await page.pdf(generatePDFOptions);
+    await browser.close();
+
+    return Buffer.from(modernPdf);
 }
