@@ -35,6 +35,33 @@ export function formatScheduleDateTime(
     return `${month}/${day}/${year} ${hours}:${minutes}${ampm}`;
 }
 
+export function formatPhoneNumber(phoneNumber: string): string {
+    if (!phoneNumber) return "";
+
+    // Remove all non-digit characters
+    const cleaned = phoneNumber.replace(/\D/g, "");
+
+    // Handle different phone number lengths
+    if (cleaned.length === 10) {
+        // Standard US format: (123) 456-7890
+        return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(
+            6
+        )}`;
+    } else if (cleaned.length === 11 && cleaned.startsWith("1")) {
+        // US format with country code: +1 (123) 456-7890
+        return `+1 (${cleaned.slice(1, 4)}) ${cleaned.slice(
+            4,
+            7
+        )}-${cleaned.slice(7)}`;
+    } else if (cleaned.length === 7) {
+        // Local format: 456-7890
+        return `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+    } else {
+        // Return original if it doesn't match expected patterns
+        return phoneNumber;
+    }
+}
+
 // export async function generateStaticPart(data: RootObject) {
 //     const templatePath = path.join(
 //         process.cwd(),
@@ -416,10 +443,10 @@ export async function generateModernReport(data: RootObject): Promise<Buffer> {
         format: "letter" as const,
         printBackground: true,
         margin: {
-            top: "0.5in",
-            right: "0.5in",
-            bottom: "0.5in",
-            left: "0.5in",
+            top: "20px",
+            right: "20px",
+            bottom: "20px",
+            left: "20px",
         },
         preferCSSPageSize: true,
     };

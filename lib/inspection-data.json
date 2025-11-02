@@ -66,6 +66,22 @@
                 "addedAt": 1754681992945,
                 "addedBy": "system",
                 "isPrimary": true
+            },
+            {
+                "id": "222a191710ff862b3141ffa48d5862595e18d195083",
+                "agent": {
+                    "id": "222a191710ff862b3141ffa48d5862595e18d195073",
+                    "name": "Binsr Agent",
+                    "email": "Binsr@binsr.app",
+                    "phone": "5103811725",
+                    "company": {
+                        "name": "ABC Real Estate"
+                    }
+                },
+                "source": "booking",
+                "addedAt": 1754681992945,
+                "addedBy": "system",
+                "isPrimary": false
             }
         ],
         "bookingFormData": {

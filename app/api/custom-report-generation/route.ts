@@ -1,30 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateOptimizedModernReport } from "@/lib/pdf-generator";
+import { generateModernReport, generateOptimizedModernReport } from "@/lib/pdf-generator";
 import { RootObject } from "@/types";
+import fs from "fs";
 import inspectionData from "@/lib/inspection-data.json";
+import path from "path";
 
-export async function POST(request: NextRequest) {
+export async function POST() {
     try {
         // Parse the JSON data from the request
-        const requestData = await request.json();
-        console.log(
-            "Request data received:",
-            JSON.stringify(requestData, null, 2)
+        const jsonPath = path.join(
+            process.cwd(),
+            "lib",
+            "inspection-data.json"
         );
+        const data = JSON.parse(fs.readFileSync(jsonPath, "utf-8"));
 
-        // Use either the request data or the inspection data
-        let data: RootObject = requestData;
-
-        if (
-            !data ||
-            !data.inspection?.sections ||
-            data.inspection.sections.length === 0
-        ) {
-            console.log(
-                "No valid sections in request data, using inspection data..."
-            );
-            data = inspectionData as unknown as RootObject;
-        }
+        // if (
+        //     !data ||
+        //     !data.inspection?.sections ||
+        //     data.inspection.sections.length === 0
+        // ) {
+        //     console.log(
+        //         "No valid sections in request data, using inspection data..."
+        //     );
+        //     data = inspectionData as unknown as RootObject;
+        // }
 
         if (!data || !data.inspection) {
             return NextResponse.json(
@@ -34,10 +34,12 @@ export async function POST(request: NextRequest) {
         }
 
         // Generate the modern report PDF using the optimized function
-        const pdfBuffer = await generateOptimizedModernReport(data);
+        const pdfBuffer = await generateModernReport(data);
+
+        const buffer = Buffer.from(pdfBuffer);
 
         // Return the PDF as a response
-        return new NextResponse(new Uint8Array(pdfBuffer), {
+        return new NextResponse(buffer, {
             headers: {
                 "Content-Type": "application/pdf",
                 "Content-Disposition":

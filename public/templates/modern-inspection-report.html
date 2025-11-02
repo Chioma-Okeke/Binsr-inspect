@@ -125,8 +125,11 @@
                 background: #f9fafb;
                 border: 1px solid #e5e7eb;
                 border-radius: 12px;
-                padding: 24px;
+                padding: 18px 24px;
                 margin-bottom: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
             }
 
             .property-address {
@@ -141,20 +144,20 @@
                 font-size: 16px;
                 color: #6b7280;
                 text-align: center;
-                margin-bottom: 20px;
+                margin-bottom: 8px;
             }
 
             .property-date {
                 font-size: 14px;
                 color: #6b7280;
                 text-align: center;
-                margin-bottom: 20px;
             }
 
             .inspector-info {
-                display: flex;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
                 justify-content: space-between;
-                gap: 20px;
+                gap: 8px;
             }
 
             .inspector-card {
@@ -162,7 +165,7 @@
                 background: white;
                 border: 1px solid #e5e7eb;
                 border-radius: 8px;
-                padding: 16px;
+                padding: 12px;
                 display: flex;
                 align-items: center;
                 gap: 12px;
@@ -253,7 +256,6 @@
             .section {
                 padding: 40px;
                 border-bottom: 1px solid #e5e7eb;
-                page-break-inside: avoid;
             }
 
             .section:last-of-type {
@@ -263,7 +265,7 @@
             .section-header {
                 display: flex;
                 align-items: center;
-                margin-bottom: 32px;
+                margin-bottom: 4px;
                 padding-bottom: 16px;
                 border-bottom: 2px solid #e5e7eb;
             }
@@ -286,22 +288,16 @@
 
             /* Line Items */
             .line-item {
-                background: #ffffff;
-                border: 1px solid #e5e7eb;
-                border-radius: 12px;
-                margin-bottom: 24px;
-                overflow: hidden;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-                page-break-inside: avoid;
+                margin-bottom: 16px;
             }
 
             .line-item-header {
-                background: #f9fafb;
-                padding: 20px;
+                padding: 12px 0;
                 border-bottom: 1px solid #e5e7eb;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                margin-bottom: 8px;
             }
 
             .line-item-number-title {
@@ -367,32 +363,31 @@
 
             /* Comments */
             .comments-section {
-                padding: 24px;
+                padding: 0;
             }
 
             .comment {
-                background: #f9fafb;
-                border: 1px solid #e5e7eb;
-                border-radius: 8px;
-                padding: 20px;
-                margin-bottom: 16px;
+                padding: 12px 0;
+                margin-bottom: 8px;
+                border-bottom: 1px solid #e5e7eb;
             }
 
             .comment:last-child {
+                border-bottom: none;
                 margin-bottom: 0;
             }
 
             .comment-label {
-                font-size: 12px;
+                font-size: 13px;
                 font-weight: 700;
                 color: #6b7280;
                 text-transform: uppercase;
-                margin-bottom: 12px;
                 letter-spacing: 0.5px;
+                margin-bottom: 8px;
             }
 
             .comment-text {
-                font-size: 14px;
+                font-size: 12px;
                 color: #1f2937;
                 line-height: 1.6;
                 white-space: pre-line;
@@ -401,31 +396,33 @@
 
             /* Media Styles */
             .media-section {
-                margin-top: 20px;
-                padding-top: 20px;
-                border-top: 1px solid #e5e7eb;
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 16px;
+                grid-template-columns: repeat(2, 1fr);
+                align-items: start;
+                gap: 4px;
+                margin-top: 8px;
             }
 
             .media-item {
-                background: white;
-                border: 1px solid #e5e7eb;
-                border-radius: 8px;
                 overflow: hidden;
+                width: fit-content;
             }
 
             .media-image {
                 width: 100%;
-                height: 200px;
-                object-fit: cover;
+                object-fit: contain;
                 display: block;
+                max-width: 200px;
+                height: auto;
+                border-radius: 8px;
+                max-height: 350px;
             }
 
             .media-video {
                 width: 100%;
-                height: 200px;
+                height: auto;
+                max-height: 250px;
+                margin: 5px 0;
                 display: block;
             }
 
@@ -436,11 +433,10 @@
             }
 
             .media-caption {
-                padding: 12px;
+                padding: 12px 0px;
                 font-size: 13px;
                 color: #6b7280;
                 line-height: 1.4;
-                border-top: 1px solid #f3f4f6;
             }
 
             .media-type {
@@ -520,11 +516,6 @@
                     box-shadow: none;
                     border-radius: 0;
                 }
-
-                .section,
-                .line-item {
-                    break-inside: avoid;
-                }
             }
         </style>
     </head>
@@ -554,8 +545,8 @@
                         </div>
                     </div>
                     <div class="company-contact-right">
-                        {{#if
-                        phoneNumber}}{{phoneNumber}}{{else}}555-123-4567{{/if}}<br />
+                        {{#if phoneNumber}}{{formatPhone
+                        phoneNumber}}{{else}}(555) 123-4567{{/if}}<br />
                         {{#if
                         email}}{{email}}{{else}}mark.s.garcia.sf@gmail.com{{/if}}
                     </div>
@@ -563,7 +554,7 @@
 
                 <!-- Property Image Placeholder -->
                 <img
-                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='280' viewBox='0 0 600 280'%3E%3Crect width='600' height='280' fill='%23f3f4f6'/%3E%3Ctext x='300' y='140' text-anchor='middle' font-family='Arial' font-size='16' fill='%236b7280'%3EProperty Photo%3C/text%3E%3C/svg%3E"
+                    src="{{headerImage}}"
                     alt="Property Photo"
                     class="property-image"
                 />
@@ -578,10 +569,12 @@
 
                 <!-- Property Information Card -->
                 <div class="property-info-card">
-                    <div class="property-address">{{propertyAddress}}</div>
-                    <div class="property-client">{{clientName}}</div>
-                    <div class="property-date">
-                        Inspection Date: {{inspectionDate}}
+                    <div>
+                        <div class="property-address">{{propertyAddress}}</div>
+                        <div class="property-client">{{clientName}}</div>
+                        <div class="property-date">
+                            Inspection Date: {{inspectionDate}}
+                        </div>
                     </div>
 
                     <!-- Inspector Information -->
@@ -604,16 +597,28 @@
                                 </div>
                             </div>
                         </div>
+                        {{#each agents}}
+                        {{#if isPrimary}}
                         <div class="inspector-card">
-                            <div class="inspector-avatar">MA</div>
+                            <div class="inspector-avatar">
+                                {{#if agent.name}}{{substring agent.name 0
+                                2}}{{else}}MA{{/if}}
+                            </div>
                             <div class="inspector-details">
                                 <div class="inspector-label">PRIMARY AGENT</div>
-                                <div class="inspector-name">Mark Agent</div>
+                                <div class="inspector-name">
+                                    {{#if agent.name}}{{agent.name}}{{else}}Mark
+                                    Agent{{/if}}
+                                </div>
                                 <div class="inspector-license">
-                                    510381725<br />mark@agent.app
+                                    {{#if agent.phone}}{{formatPhone
+                                    agent.phone}}{{else}}(510) 381-7725{{/if}}
+                                    {{#if agent.email}}<br />{{agent.email}}{{else}}<br />mark@agent.app{{/if}}
                                 </div>
                             </div>
                         </div>
+                        {{/if}}
+                        {{/each}}
                     </div>
                 </div>
             </div>
