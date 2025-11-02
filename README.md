@@ -39,7 +39,7 @@ A comprehensive Next.js application for generating professional property inspect
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Chioma-Okeke/Binsr-inspect.git
    cd Binsr-inspect
    ```
 
